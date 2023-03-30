@@ -24,7 +24,7 @@ namespace API.Controllers
 
             if (result == null)
             {
-                return BadRequest();
+                return Ok(false);
             }
 
             return Ok(result);
@@ -38,7 +38,7 @@ namespace API.Controllers
 
             if (result == null)
             {
-                return BadRequest();
+                return Ok("");
             }
 
             return Ok(result);
