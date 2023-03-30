@@ -9,13 +9,13 @@ using API;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add services to the container.
 builder.Services.SetupDependancies();
+builder.Services.AddControllers();
+
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", builder =>
 {
     builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
@@ -78,6 +78,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("corspolicy");
 
 app.UseAuthorization();
 

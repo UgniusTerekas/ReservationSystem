@@ -1,13 +1,40 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import { RegisterPage } from "./pages/auth/registerPage";
+import { LoginPage } from "./pages/loginPage";
+import { MainPage } from "./pages/mainPage";
+import { RootLayout } from "./layouts/rootLayout";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { isValidToken } from "./recoil/authStates";
+import {
+  CheckJWTAndSession,
+  removeLocalTokens,
+} from "./services/tokenServices";
 
-function App() {
+export const App = () => {
+  const [validToken, setTokenValidation] = useRecoilState(isValidToken);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      const check = await CheckJWTAndSession();
+
+      if (!check) {
+        removeLocalTokens();
+      }
+
+      setTokenValidation(check);
+    };
+
+    validateToken();
+  }, [validToken, setTokenValidation]);
+
   return (
-    <div className="App">
-      <h1>App</h1>
-    </div>
+    <Routes>
+      <Route path={"/"} element={<RootLayout />}>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Route>
+    </Routes>
   );
-}
-
-export default App;
+};
