@@ -1,6 +1,6 @@
 import { Card, Input, Button, Alert, Form } from "antd";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { LoginRequest } from "../../contracts/authRequest";
 import { authTokenAtom, isValidToken } from "../../recoil/authStates";
@@ -47,14 +47,14 @@ export const LoginComponent = () => {
     setLocalAccessoken(res);
     setAuthToken(true);
     setTokenValidation(true);
-    navigate("/");
+    navigate("/pagrindinis");
   };
 
   useEffect(() => {
     if (tokenValid) {
       navigate("/");
     }
-  });
+  }, []);
 
   return (
     <Card

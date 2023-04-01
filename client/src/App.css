@@ -17,6 +17,10 @@ body {
   margin-left: auto;
 }
 
+.top-menu-logged-in .ant-menu-item:last-child {
+  margin-left: auto !;
+}
+
 .custom-input {
   width: 400px;
   height: 70px;
@@ -63,9 +67,6 @@ body {
   z-index: 1;
 }
 
-.header {
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  top: 0;
+li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child.atsijungtiLink {
+  margin-left: auto;
 }
