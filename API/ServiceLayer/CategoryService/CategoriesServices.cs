@@ -33,7 +33,7 @@ namespace ServiceLayer.CategoryService
                  {
                      CategoryId = c.CategoryId,
                      CategoryName = c.CategoryName,
-                     CategoryImage = Convert.ToBase64String(c.CategoryImage),
+                     CategoryImage = c.CategoryImage,
                  })
                  .ToList();
 
@@ -54,7 +54,7 @@ namespace ServiceLayer.CategoryService
                 return null;
             }
 
-            var imageBase64 = Convert.ToBase64String(category.CategoryImage);
+            var imageBase64 = category.CategoryImage;
 
             return new CategoryDto
             {
@@ -111,14 +111,7 @@ namespace ServiceLayer.CategoryService
                     throw new ArgumentException("Invalid file format. Only JPG and PNG files are allowed.");
                 }
 
-                byte[] imageBytes;
-                using (var ms = new MemoryStream())
-                {
-                    await file.CopyToAsync(ms);
-                    imageBytes = ms.ToArray();
-                }
-
-                existingCategory.CategoryImage = imageBytes;
+                existingCategory.CategoryImage = file.FileName;
             }
 
             await _categoriesRepository.UpdateCategory(existingCategory);
@@ -127,7 +120,7 @@ namespace ServiceLayer.CategoryService
             {
                 CategoryId = existingCategory.CategoryId,
                 CategoryName = existingCategory.CategoryName,
-                CategoryImage = Convert.ToBase64String(existingCategory.CategoryImage),
+                CategoryImage = existingCategory.CategoryImage,
             };
         }
 
@@ -145,7 +138,7 @@ namespace ServiceLayer.CategoryService
             return true;
         }
 
-        private async Task<byte[]> ValidateImageAsync(IFormFile file)
+        private async Task<string> ValidateImageAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -158,14 +151,7 @@ namespace ServiceLayer.CategoryService
                 throw new ArgumentException("Invalid file format.");
             }
 
-            byte[] imageData;
-            using (var stream = new MemoryStream())
-            {
-                await file.CopyToAsync(stream);
-                imageData = stream.ToArray();
-            }
-
-            return imageData;
+            return file.FileName;
         }
     }
 }
