@@ -54,13 +54,11 @@ namespace ServiceLayer.CategoryService
                 return null;
             }
 
-            var imageBase64 = category.CategoryImage;
-
             return new CategoryDto
             {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,
-                CategoryImage = imageBase64
+                CategoryImage = category.CategoryImage,
             };
         }
 

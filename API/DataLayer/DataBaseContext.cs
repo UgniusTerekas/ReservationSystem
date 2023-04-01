@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Category;
+using DataLayer.Entities.City;
 using DataLayer.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,8 @@ namespace DataLayer
         public virtual DbSet<State> States { get; set; }
 
         public virtual DbSet<CategoryEntity> Categories { get; set; }
+
+        public virtual DbSet<CityEntity> Cities { get; set; }
 
         public DataBaseContext()
         {
