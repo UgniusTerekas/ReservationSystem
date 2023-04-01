@@ -14,16 +14,13 @@ export const TopBar = () => {
   };
 
   return (
-    <Header>
+    <Header className="header">
       <Menu mode="horizontal" theme="dark" className="top-menu-logged-in">
         <Menu.Item key="pagrindinis">
           <Link to="/">Pagrindinis</Link>
         </Menu.Item>
         <Menu.Item key="2" className="top-menu-logged-in">
-          <Link to="/about">About</Link>
-        </Menu.Item>
-        <Menu.Item key="3" className="top-menu-logged-in">
-          <Link to="/contact">Contact</Link>
+          <Link to="/">Visos Pramogos</Link>
         </Menu.Item>
         <Menu.Item key="5" style={{ marginLeft: "auto" }}>
           <Link onClick={logoutHandler} to={"/login"}>

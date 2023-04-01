@@ -10,7 +10,7 @@ const imageUrl =
 const BackgroundStyles: React.CSSProperties = {
   backgroundImage: `url(${imageUrl})`,
   backgroundSize: "cover",
-  backgroundPosition: "0px 17%",
+  backgroundPosition: "0px 11%",
   height: "52vh",
   display: "flex",
   justifyContent: "center",
