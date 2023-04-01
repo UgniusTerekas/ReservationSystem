@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { RegisterPage } from "./pages/auth/registerPage";
-import { LoginPage } from "./pages/loginPage";
+import { LoginPage } from "./pages/auth/loginPage";
 import { MainPage } from "./pages/mainPage";
 import { RootLayout } from "./layouts/rootLayout";
 import { useEffect } from "react";
