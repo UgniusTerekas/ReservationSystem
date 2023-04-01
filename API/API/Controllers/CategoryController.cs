@@ -17,7 +17,7 @@ namespace API.Controllers
         }
 
         [HttpPost("createCategory")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateCategory(string name, IFormFile file)
         {
             var category = new CategoryRequest

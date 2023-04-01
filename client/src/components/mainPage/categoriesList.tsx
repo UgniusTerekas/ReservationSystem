@@ -32,10 +32,10 @@ export const CategoriesList = () => {
                     -5
                   )}.jpeg`)}
                   alt={category.categoryName}
-                  className="cities-category-image"
+                  className="cities-card-image"
                 />
               }
-              className="cities-category"
+              className="cities-card"
             >
               <h3 className="cities-card-title">{category.categoryName}</h3>
             </Card>

@@ -1,47 +1,15 @@
 import { Card, Divider, Space } from "antd";
 import React from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-
-const cardData = [
-  {
-    id: 1,
-    title: "Card 1",
-    image: "https://picsum.photos/id/1/800/600",
-    link: "/card1",
-  },
-  {
-    id: 2,
-    title: "Card 2",
-    image: "https://picsum.photos/id/2/800/600",
-    link: "/card2",
-  },
-  {
-    id: 3,
-    title: "Card 3",
-    image: "https://picsum.photos/id/3/800/600",
-    link: "/card3",
-  },
-  {
-    id: 4,
-    title: "Card 4",
-    image: "https://picsum.photos/id/4/800/600",
-    link: "/card4",
-  },
-  {
-    id: 5,
-    title: "Card 5",
-    image: "https://picsum.photos/id/5/800/600",
-    link: "/card5",
-  },
-  {
-    id: 6,
-    title: "Card 6",
-    image: "https://picsum.photos/id/6/800/600",
-    link: "/card6",
-  },
-];
+import { getCities } from "../../services/cityServices";
 
 export const CitiesList = () => {
+  const query = useQuery({
+    queryKey: ["citiesList"],
+    queryFn: ({ signal }) => getCities(signal),
+  });
+
   return (
     <React.Fragment>
       <Divider style={{ borderColor: "black", paddingInline: 110 }}>
@@ -52,20 +20,23 @@ export const CitiesList = () => {
         wrap
         style={{ justifyContent: "center", display: "flex", padding: "0 30px" }}
       >
-        {cardData.map((card) => (
-          <Link to={card.link} key={card.id}>
+        {query.data?.map((city) => (
+          <Link to={"/"} key={city.cityId}>
             <Card
               hoverable
               cover={
                 <img
-                  src={card.image}
-                  alt={card.title}
+                  src={require(`../../assets/${city.cityImage.slice(
+                    0,
+                    -5
+                  )}.jpeg`)}
+                  alt={city.cityName}
                   className="cities-card-image"
                 />
               }
               className="cities-card"
             >
-              <h3 className="cities-card-title">{card.title}</h3>
+              <h3 className="cities-card-title">{city.cityName}</h3>
             </Card>
           </Link>
         ))}
