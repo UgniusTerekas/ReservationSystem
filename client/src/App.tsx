@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { RegisterPage } from "./pages/auth/registerPage";
 import { LoginPage } from "./pages/auth/loginPage";
 import { MainPage } from "./pages/mainPage";
@@ -14,6 +14,9 @@ import {
 export const App = () => {
   const [validToken, setTokenValidation] = useRecoilState(isValidToken);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const validateToken = async () => {
       const check = await CheckJWTAndSession();
@@ -24,16 +27,18 @@ export const App = () => {
 
       setTokenValidation(check);
     };
-
+    if (location.pathname === "/" || location.pathname === "") {
+      navigate("/pagrindinis");
+    }
     validateToken();
   }, [validToken, setTokenValidation]);
 
   return (
     <Routes>
       <Route path={"/"} element={<RootLayout />}>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/pagrindinis" element={<MainPage />} />
+        <Route path="/prisijungimas" element={<LoginPage />} />
+        <Route path="/registracija" element={<RegisterPage />} />
       </Route>
     </Routes>
   );

@@ -1,11 +1,33 @@
-import { Menu } from "antd";
+import { Menu, MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { isValidToken } from "../../recoil/authStates";
 import { removeLocalTokens } from "../../services/tokenServices";
 
+type MenuItem = Required<MenuProps>["items"][number];
+
+const getItem = (
+  label: React.ReactNode,
+  key: React.Key,
+  className?: string,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: string
+): MenuItem => {
+  return {
+    key,
+    className,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+};
+
 export const TopBar = () => {
+  const location = useLocation();
+
   const [, setTokenValidation] = useRecoilState(isValidToken);
 
   const logoutHandler = () => {
@@ -13,21 +35,34 @@ export const TopBar = () => {
     removeLocalTokens();
   };
 
+  const items: MenuProps["items"] = [
+    getItem(<Link to={"/pagrindinis"}>Pagrindinis</Link>, "pagrindinis"),
+    getItem(<Link to={"/visosPramogos"}>Visos Pramogos</Link>, "visosPramogos"),
+    getItem(
+      <Link to={"/prisijungimas"} onClick={logoutHandler}>
+        Atsijungti
+      </Link>,
+      "atsijungti",
+      "atsijungtiLink"
+    ),
+  ];
+
   return (
-    <Header className="header">
-      <Menu mode="horizontal" theme="dark" className="top-menu-logged-in">
-        <Menu.Item key="pagrindinis">
-          <Link to="/">Pagrindinis</Link>
-        </Menu.Item>
-        <Menu.Item key="2" className="top-menu-logged-in">
-          <Link to="/">Visos Pramogos</Link>
-        </Menu.Item>
-        <Menu.Item key="5" style={{ marginLeft: "auto" }}>
-          <Link onClick={logoutHandler} to={"/login"}>
-            Logout
-          </Link>
-        </Menu.Item>
-      </Menu>
+    <Header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 2,
+        width: "100%",
+      }}
+    >
+      <Menu
+        mode="horizontal"
+        theme="dark"
+        className="top-menu-logged-in"
+        items={items}
+        defaultSelectedKeys={[location.pathname.substring(1)]}
+      />
     </Header>
   );
 };

@@ -1,27 +1,56 @@
-import { Menu } from "antd";
+import { Menu, MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+const getItem = (
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: string
+): MenuItem => {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+};
 
 export const TopBarLoggedOut = () => {
+  const location = useLocation();
+
+  const items: MenuProps["items"] = [
+    getItem(<Link to={"/pagrindinis"}>Pagrindinis</Link>, "pagrindinis"),
+    getItem(<Link to={"/visosPramogos"}>Visos Pramogos</Link>, "visosPramogos"),
+    getItem(
+      <Link className="registerLink" to={"/registracija"}>
+        Registracija
+      </Link>,
+      "registracija"
+    ),
+    getItem(<Link to={"/prisijungimas"}>Prisijungimas</Link>, "prisijungimas"),
+  ];
+
   return (
-    <Header>
-      <Menu mode="horizontal" theme="dark" className="top-menu">
-        <Menu.Item key="1">
-          <Link to="/">Pagrindinis</Link>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <Link to="/about">About</Link>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <Link to="/contact">Contact</Link>
-        </Menu.Item>
-        <Menu.Item key="5" className="registerLink">
-          <Link to="/register">Register</Link>
-        </Menu.Item>
-        <Menu.Item key="6">
-          <Link to="/login">Login</Link>
-        </Menu.Item>
-      </Menu>
+    <Header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 2,
+        width: "100%",
+      }}
+    >
+      <Menu
+        mode="horizontal"
+        theme="dark"
+        className="top-menu"
+        items={items}
+        defaultSelectedKeys={[location.pathname.substring(1)]}
+      />
     </Header>
   );
 };
