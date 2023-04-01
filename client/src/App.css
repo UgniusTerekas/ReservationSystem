@@ -70,3 +70,7 @@ body {
 li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child.atsijungtiLink {
   margin-left: auto;
 }
+
+.cities-category .ant-card-body {
+  padding: 0 !important;
+}

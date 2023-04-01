@@ -10,6 +10,11 @@ import {
   CheckJWTAndSession,
   removeLocalTokens,
 } from "./services/tokenServices";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: false } },
+});
 
 export const App = () => {
   const [validToken, setTokenValidation] = useRecoilState(isValidToken);
@@ -34,12 +39,14 @@ export const App = () => {
   }, [validToken, setTokenValidation]);
 
   return (
-    <Routes>
-      <Route path={"/"} element={<RootLayout />}>
-        <Route path="/pagrindinis" element={<MainPage />} />
-        <Route path="/prisijungimas" element={<LoginPage />} />
-        <Route path="/registracija" element={<RegisterPage />} />
-      </Route>
-    </Routes>
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route path={"/"} element={<RootLayout />}>
+          <Route path="/pagrindinis" element={<MainPage />} />
+          <Route path="/prisijungimas" element={<LoginPage />} />
+          <Route path="/registracija" element={<RegisterPage />} />
+        </Route>
+      </Routes>
+    </QueryClientProvider>
   );
 };
