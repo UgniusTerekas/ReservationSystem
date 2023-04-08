@@ -11,6 +11,8 @@ import {
   removeLocalTokens,
 } from "./services/tokenServices";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { EntertainmentListPage } from "./pages/entertainmentListPage";
+import { EntertainmentDetailsPage } from "./pages/entertainmentDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -43,6 +45,8 @@ export const App = () => {
       <Routes>
         <Route path={"/"} element={<RootLayout />}>
           <Route path="/pagrindinis" element={<MainPage />} />
+          <Route path="/pramogos" element={<EntertainmentListPage />} />
+          <Route path="/pramoga" element={<EntertainmentDetailsPage />} />
           <Route path="/prisijungimas" element={<LoginPage />} />
           <Route path="/registracija" element={<RegisterPage />} />
         </Route>

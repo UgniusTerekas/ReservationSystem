@@ -25,7 +25,7 @@ export const TopBarLoggedOut = () => {
 
   const items: MenuProps["items"] = [
     getItem(<Link to={"/pagrindinis"}>Pagrindinis</Link>, "pagrindinis"),
-    getItem(<Link to={"/visosPramogos"}>Visos Pramogos</Link>, "visosPramogos"),
+    getItem(<Link to={"/pramogos"}>Pramogos</Link>, "pramogos"),
     getItem(
       <Link className="registerLink" to={"/registracija"}>
         Registracija
