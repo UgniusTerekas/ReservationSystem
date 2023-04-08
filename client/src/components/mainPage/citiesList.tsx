@@ -1,4 +1,4 @@
-import { Card, Divider, Space } from "antd";
+import { Card, Divider, Space, Spin } from "antd";
 import React from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -9,6 +9,10 @@ export const CitiesList = () => {
     queryKey: ["citiesList"],
     queryFn: ({ signal }) => getCities(signal),
   });
+
+  if (query.isLoading) {
+    return <Spin />;
+  }
 
   return (
     <React.Fragment>
@@ -21,7 +25,7 @@ export const CitiesList = () => {
         style={{ justifyContent: "center", display: "flex", padding: "0 30px" }}
       >
         {query.data?.map((city) => (
-          <Link to={"/"} key={city.cityId}>
+          <Link to={"/pramogos"} key={city.cityId}>
             <Card
               hoverable
               cover={

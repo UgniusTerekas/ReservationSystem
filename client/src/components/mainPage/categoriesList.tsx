@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
-import { Card, Divider, Space } from "antd";
+import { Card, Divider, Space, Spin } from "antd";
 import React from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -10,6 +10,10 @@ export const CategoriesList = () => {
     queryKey: ["categoriesList"],
     queryFn: ({ signal }) => getCategories(signal),
   });
+
+  if (query.isLoading) {
+    return <Spin />;
+  }
 
   return (
     <React.Fragment>
@@ -22,7 +26,7 @@ export const CategoriesList = () => {
         style={{ justifyContent: "center", display: "flex", padding: "0 30px" }}
       >
         {query.data?.map((category) => (
-          <Link to={"/"} key={category.categoryId}>
+          <Link to={"/pramogos"} key={category.categoryId}>
             <Card
               hoverable
               cover={

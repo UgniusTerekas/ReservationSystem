@@ -70,3 +70,10 @@ body {
 li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child.atsijungtiLink {
   margin-left: auto;
 }
+
+:where(.css-dev-only-do-not-override-1w1vn70).ant-carousel
+  .slick-dots
+  li
+  button {
+  background: black;
+}
