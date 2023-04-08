@@ -77,3 +77,26 @@ li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child.atsijungtiLink 
   button {
   background: black;
 }
+
+.entertainment-rating-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.entertainment-rating-text {
+  margin-bottom: 16px;
+}
+
+.entertainment-rating-stars {
+  font-size: 48px;
+}
+.entertainment-rating-number {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+}
