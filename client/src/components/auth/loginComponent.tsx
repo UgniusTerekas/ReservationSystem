@@ -20,6 +20,7 @@ const inputStyle: React.CSSProperties = {
 export const LoginComponent = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
 
   const [tokenValid, setAuthToken] = useRecoilState(authTokenAtom);
@@ -28,6 +29,7 @@ export const LoginComponent = () => {
   const navigate = useNavigate();
 
   const loginHandler = async () => {
+    setIsLoading(true);
     const crediantials: LoginCredentials = {
       username: username,
       password: password,
@@ -47,6 +49,7 @@ export const LoginComponent = () => {
     setLocalAccessoken(res);
     setAuthToken(true);
     setTokenValidation(true);
+    setIsLoading(false);
     navigate("/pagrindinis");
   };
 
@@ -94,7 +97,12 @@ export const LoginComponent = () => {
           />
         </Form.Item>
         <Form.Item style={{ textAlign: "center" }}>
-          <Button style={{ marginTop: 10 }} type="primary" htmlType="submit">
+          <Button
+            loading={isLoading}
+            style={{ marginTop: 10 }}
+            type="primary"
+            htmlType="submit"
+          >
             Prisijungti
           </Button>
         </Form.Item>

@@ -36,7 +36,9 @@ export const AllEntertainments = () => {
                 <div>
                   <Rate disabled defaultValue={4} />
                   <span style={{ marginLeft: 10 }}>4.0</span>
-                  <div style={{ marginTop: 10 }}>Price: $100</div>
+                  <div style={{ marginTop: 10, fontWeight: "bold" }}>
+                    Price: $100
+                  </div>
                 </div>
               }
             />
