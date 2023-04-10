@@ -1,5 +1,8 @@
 ﻿using DataLayer.Entities.Category;
 using DataLayer.Entities.City;
+using DataLayer.Entities.EntertainmentItem;
+using DataLayer.Entities.Gallery;
+using DataLayer.Entities.Review;
 using DataLayer.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +20,12 @@ namespace DataLayer
         public virtual DbSet<CategoryEntity> Categories { get; set; }
 
         public virtual DbSet<CityEntity> Cities { get; set; }
+
+        public virtual DbSet<GalleryEntity> Gallery { get; set; }
+
+        public virtual DbSet<ReviewEntity> Reviews { get; set; }
+
+        public virtual DbSet<EntertainmentItemEntity> Entertainments { get; set; }
 
         public DataBaseContext()
         {

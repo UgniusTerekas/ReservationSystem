@@ -2,7 +2,9 @@ import React from "react";
 import { EntertainmentGallery } from "../components/entertainmentDetails/entertainmentGallery";
 import { EntertainmentAbout } from "../components/entertainmentDetails/entertainmentAbout";
 import { EntertainmentRating } from "../components/entertainmentDetails/entertainmentRating";
-import { EntertainmentAddress } from "../components/entertainmentDetails/entertainmentAddress";
+import { EntertainmentReview } from "../components/entertainmentDetails/entertainmentReview";
+import { EntertainmentReviews } from "../components/entertainmentDetails/entertainmentReviews";
+import { EntertainmentReservation } from "../components/entertainmentDetails/entertainmentReservation";
 
 export const EntertainmentDetailsPage = () => {
   return (
@@ -10,7 +12,9 @@ export const EntertainmentDetailsPage = () => {
       <EntertainmentAbout />
       <EntertainmentGallery />
       <EntertainmentRating />
-      <EntertainmentAddress />
+      <EntertainmentReviews />
+      <EntertainmentReview />
+      <EntertainmentReservation />
     </React.Fragment>
   );
 };

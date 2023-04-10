@@ -4,6 +4,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230410103424_Entertainment")]
+    partial class Entertainment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +24,6 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryEntityEntertainmentItemEntity", b =>
-                {
-                    b.Property<int>("CategoriesCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EntertainmentsEntertainmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesCategoryId", "EntertainmentsEntertainmentId");
-
-                    b.HasIndex("EntertainmentsEntertainmentId");
-
-                    b.ToTable("CategoryEntityEntertainmentItemEntity");
-                });
-
-            modelBuilder.Entity("CityEntityEntertainmentItemEntity", b =>
-                {
-                    b.Property<int>("CitiesCityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EntertainmentsEntertainmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CitiesCityId", "EntertainmentsEntertainmentId");
-
-                    b.HasIndex("EntertainmentsEntertainmentId");
-
-                    b.ToTable("CityEntityEntertainmentItemEntity");
-                });
 
             modelBuilder.Entity("DataLayer.Entities.Category.CategoryEntity", b =>
                 {
@@ -68,7 +41,12 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EntertainmentItemEntityEntertainmentId")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("EntertainmentItemEntityEntertainmentId");
 
                     b.ToTable("Categories");
                 });
@@ -89,7 +67,12 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EntertainmentItemEntityEntertainmentId")
+                        .HasColumnType("int");
+
                     b.HasKey("CityId");
+
+                    b.HasIndex("EntertainmentItemEntityEntertainmentId");
 
                     b.ToTable("Cities");
                 });
@@ -109,9 +92,6 @@ namespace DataLayer.Migrations
                     b.Property<string>("EntertainmentName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
 
                     b.HasKey("EntertainmentId");
 
@@ -251,34 +231,18 @@ namespace DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CategoryEntityEntertainmentItemEntity", b =>
+            modelBuilder.Entity("DataLayer.Entities.Category.CategoryEntity", b =>
                 {
-                    b.HasOne("DataLayer.Entities.Category.CategoryEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataLayer.Entities.EntertainmentItem.EntertainmentItemEntity", null)
-                        .WithMany()
-                        .HasForeignKey("EntertainmentsEntertainmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Categories")
+                        .HasForeignKey("EntertainmentItemEntityEntertainmentId");
                 });
 
-            modelBuilder.Entity("CityEntityEntertainmentItemEntity", b =>
+            modelBuilder.Entity("DataLayer.Entities.City.CityEntity", b =>
                 {
-                    b.HasOne("DataLayer.Entities.City.CityEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CitiesCityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataLayer.Entities.EntertainmentItem.EntertainmentItemEntity", null)
-                        .WithMany()
-                        .HasForeignKey("EntertainmentsEntertainmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Cities")
+                        .HasForeignKey("EntertainmentItemEntityEntertainmentId");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Gallery.GalleryEntity", b =>
@@ -328,6 +292,10 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.EntertainmentItem.EntertainmentItemEntity", b =>
                 {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Cities");
+
                     b.Navigation("Gallery");
 
                     b.Navigation("Reviews");
