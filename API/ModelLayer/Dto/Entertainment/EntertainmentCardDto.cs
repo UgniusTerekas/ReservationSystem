@@ -11,7 +11,7 @@ namespace ModelLayer.Dto.Entertainment
     {
         public int Id { get; set; }
 
-        public GalleryDto Image { get; set; }
+        public GalleryDto? Image { get; set; }
 
         public string Name { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities.City;
+﻿using DataLayer.Entities.Category;
+using DataLayer.Entities.City;
 using DataLayer.Entities.EntertainmentItem;
 using DataLayer.Interfaces;
 using DataLayer.Repositories.CityRepository.cs;
@@ -14,26 +15,20 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.EntertainmentService
 {
-    public class EntertainmentServices
+    public class EntertainmentServices : IEntertainmentServices
     {
         private readonly IEntertainmentRepository _entertainmentRepository;
         private readonly ICityRepository _cityRepository;
         private readonly ICategoriesRepository _categoryRepository;
-        private readonly IGalleryRepository _galleryRepository;
-        private readonly IGalleryServices _galleryServices;
 
         public EntertainmentServices(
             IEntertainmentRepository entertainmentRepository,
             ICityRepository cityRepository,
-            ICategoriesRepository categoriesRepository,
-            IGalleryRepository galleryRepository,
-            IGalleryServices galleryServices)
+            ICategoriesRepository categoriesRepository)
         {
             _entertainmentRepository = entertainmentRepository;
             _cityRepository = cityRepository;
             _categoryRepository = categoriesRepository;
-            _galleryRepository = galleryRepository;
-            _galleryServices = galleryServices;
         }
 
         public async Task<List<EntertainmentCardDto>> GetEntertainments()
@@ -46,13 +41,13 @@ namespace ServiceLayer.EntertainmentService
                      Id = e.EntertainmentId,
                      Name = e.EntertainmentName,
                      Price = e.Price,
-                     Image = e.Gallery.Select(x => new GalleryDto
+                     Image = e.Gallery.FirstOrDefault() != null ? new GalleryDto
                      {
-                         ImageId= x.ImageId,
-                         ImageLocation= x.ImageLocation,
-                         ImageName= x.ImageName,
-                     }).FirstOrDefault(),
-                     Rating = e.Reviews.Average(x => x.Rating),
+                         ImageId = e.Gallery.First().ImageId,
+                         ImageLocation = e.Gallery.First().ImageLocation,
+                         ImageName = e.Gallery.First().ImageName
+                     } : null,
+                     Rating = e.Reviews.Any() ? e.Reviews.Average(r => r.Rating) : 0.0
                  })
                  .ToList();
 
@@ -69,13 +64,13 @@ namespace ServiceLayer.EntertainmentService
                      Id = e.EntertainmentId,
                      Name = e.EntertainmentName,
                      Price = e.Price,
-                     Image = e.Gallery.Select(x => new GalleryDto
+                     Image = e.Gallery.FirstOrDefault() != null ? new GalleryDto
                      {
-                         ImageId = x.ImageId,
-                         ImageLocation = x.ImageLocation,
-                         ImageName = x.ImageName,
-                     }).FirstOrDefault(),
-                     Rating = e.Reviews.Average(x => x.Rating),
+                         ImageId = e.Gallery.First().ImageId,
+                         ImageLocation = e.Gallery.First().ImageLocation,
+                         ImageName = e.Gallery.First().ImageName
+                     } : null,
+                     Rating = e.Reviews.Any() ? e.Reviews.Average(r => r.Rating) : 0.0
                  })
                  .ToList();
 
@@ -94,18 +89,84 @@ namespace ServiceLayer.EntertainmentService
             foreach (var item in createEntertainment.CitiesIds)
             {
                 var city = await _cityRepository.GetOneCity(item);
-                entertainmentEntity.Cities.Add(city);
+                if (city != null)
+                {
+                    entertainmentEntity.Cities.Add(city);
+                }
             }
 
             foreach (var item in createEntertainment.CategoriesIds)
             {
                 var category = await _categoryRepository.GetOneCategory(item);
-                entertainmentEntity.Categories.Add(category);
+                if (category != null)
+                {
+                    entertainmentEntity.Categories.Add(category);
+                }
             }
 
-            var result = await _entertainmentRepository.CreateEntertainment(entertainmentEntity);
+            if (entertainmentEntity != null)
+            {
+                var result = await _entertainmentRepository.CreateEntertainment(entertainmentEntity);
+                if (result == null)
+                {
+                    return false;
+                }
+            }
 
             return true;
+        }
+
+        public async Task<bool> UpdateEntertainment(UpdateEntertainmentDto updateModel)
+        {
+            var existingEntertainment = await _entertainmentRepository.GetEntertainment(updateModel.Id);
+
+            if (existingEntertainment == null)
+            {
+                return false;
+            }
+
+            if (updateModel.Name != null
+                && updateModel.Price != null
+                && updateModel.Description != null
+                && updateModel.Cities != null
+                && updateModel.Categories != null)
+            {
+                existingEntertainment.EntertainmentName = updateModel.Name;
+                existingEntertainment.Price = updateModel.Price;
+                existingEntertainment.EntertainmentDescription = updateModel.Description;
+                existingEntertainment.Cities = (ICollection<CityEntity>)updateModel.Cities;
+                existingEntertainment.Categories = (ICollection<CategoryEntity>)updateModel.Categories;
+            }
+
+            var result = await _entertainmentRepository.UpdateEntertainment(existingEntertainment);
+
+            if (result == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteEntertainment(int id)
+        {
+            var existingEntertainment = await _entertainmentRepository.GetEntertainment(id);
+
+            if (existingEntertainment == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                await _entertainmentRepository.DeleteEntertainment(existingEntertainment);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

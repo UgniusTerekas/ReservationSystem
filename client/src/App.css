@@ -100,3 +100,7 @@ li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child.atsijungtiLink 
   color: #000000;
   font-weight: bold;
 }
+
+.entertainmentList .ant-card-body {
+  height: 152px;
+}
