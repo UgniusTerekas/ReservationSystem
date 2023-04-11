@@ -12,10 +12,10 @@ namespace DataLayer.Entities.EntertainmentItem
     {
         public EntertainmentItemEntity() 
         {
-            Cities = new HashSet<City.CityEntity>();
+            Cities = new HashSet<CityEntity>();
             Categories= new HashSet<CategoryEntity>();
             Reviews = new HashSet<ReviewEntity>();
-            Gallery = new HashSet<Gallery.GalleryEntity>();
+            Gallery = new HashSet<GalleryEntity>();
         }
 
 
@@ -28,12 +28,12 @@ namespace DataLayer.Entities.EntertainmentItem
 
         public double Price { get; set; }
 
-        public ICollection<City.CityEntity> Cities { get; set; }
+        public ICollection<CityEntity> Cities { get; set; }
 
         public ICollection<CategoryEntity> Categories { get; set; }
 
         public ICollection<ReviewEntity> Reviews { get; set; }
 
-        public ICollection<Gallery.GalleryEntity> Gallery { get; set; }
+        public ICollection<GalleryEntity> Gallery { get; set; }
     }
 }

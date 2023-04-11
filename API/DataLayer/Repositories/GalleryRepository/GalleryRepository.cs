@@ -49,7 +49,7 @@ namespace DataLayer.Repositories.GalleryRepository
 
         public async Task DeleteGallery(GalleryEntity gallery)
         {
-            _dbContext.Cities.Remove(gallery);
+            _dbContext.Gallery.Remove(gallery);
 
             await _dbContext.SaveChangesAsync();
         }
