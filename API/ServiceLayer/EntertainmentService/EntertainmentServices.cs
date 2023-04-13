@@ -3,9 +3,11 @@ using DataLayer.Entities.City;
 using DataLayer.Entities.EntertainmentItem;
 using DataLayer.Interfaces;
 using DataLayer.Repositories.CityRepository.cs;
+using ModelLayer.Dto.Category;
 using ModelLayer.Dto.City;
 using ModelLayer.Dto.Entertainment;
 using ModelLayer.Dto.Gallery;
+using ModelLayer.Dto.Review;
 using ServiceLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -75,6 +77,53 @@ namespace ServiceLayer.EntertainmentService
                  .ToList();
 
             return entertainmentDto;
+        }
+        
+        public async Task<EntertainmentDto> GetEntertainmentDetails(int id)
+        {
+            var existingEntertainment = await _entertainmentRepository.GetEntertainment(id);
+
+            if (existingEntertainment == null)
+            {
+                return null;
+            }
+
+            var entertainmentDetails = new EntertainmentDto
+            {
+                Name = existingEntertainment.EntertainmentName,
+                Price = existingEntertainment.Price,
+                Description = existingEntertainment.EntertainmentDescription,
+                Gallery = existingEntertainment.Gallery?.Select(c => new GalleryDto
+                {
+                    ImageId = c.ImageId,
+                    ImageName = c.ImageName,
+                    ImageLocation = c.ImageLocation
+                }).ToList(),
+
+                Cities = existingEntertainment.Cities.Select(c => new CityDto
+                {
+                    CityId = c.CityId,
+                    CityName = c.CityName,
+                    CityImage = c.CityImage
+                }).ToList(),
+
+                Reviews = existingEntertainment.Reviews?.Select(c => new ReviewDto
+                {
+                    Id = c.ReviewId,
+                    Username = c.User.UserName,
+                    Description = c.Review,
+                    Rating = c.Rating
+                }).ToList(),
+
+                Categories = existingEntertainment.Categories.Select(c => new CategoryDto
+                {
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.CategoryName,
+                    CategoryImage = c.CategoryImage
+                }).ToList(),
+            };
+
+            return entertainmentDetails;
         }
 
         public async Task<bool> CreateEntertainment(CreateEntertainmentDto createEntertainment)

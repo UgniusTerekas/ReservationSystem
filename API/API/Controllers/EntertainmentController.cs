@@ -20,7 +20,7 @@ namespace API.Controllers
 
         [HttpGet("entertainments")]
         [ProducesResponseType(typeof(List<EntertainmentCardDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCities()
+        public async Task<IActionResult> GetEntertainmentList()
         {
             var result = await _entertainmentServices.GetEntertainments();
 
@@ -29,9 +29,23 @@ namespace API.Controllers
 
         [HttpGet("filteredEntertainments")]
         [ProducesResponseType(typeof(List<EntertainmentCardDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCities(int? cityId, int? categoryId)
+        public async Task<IActionResult> GetEntertainmentList(int? cityId, int? categoryId)
         {
             var result = await _entertainmentServices.GetEntertainments(cityId, categoryId);
+
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("entertainmentDetails")]
+        [ProducesResponseType(typeof(List<EntertainmentCardDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetEntertainmentDetails(int id)
+        {
+            var result = await _entertainmentServices.GetEntertainmentDetails(id);
 
             if (result == null)
             {

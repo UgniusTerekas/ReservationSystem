@@ -55,7 +55,13 @@ namespace DataLayer.Repositories.Entertainment
 
         public async Task<EntertainmentItemEntity> GetEntertainment(int entertainmentId)
         {
-            return await _dbContext.Entertainments.FindAsync(entertainmentId);
+            return await _dbContext.Entertainments
+                .Include(e => e.Gallery)
+                .Include(e => e.Cities)
+                .Include(e => e.Categories)
+                .Include(e => e.Reviews)
+                .FirstOrDefaultAsync(e => 
+                    e.EntertainmentId == entertainmentId);
         }
 
         public async Task<EntertainmentItemEntity> CreateEntertainment(EntertainmentItemEntity entertainment)
