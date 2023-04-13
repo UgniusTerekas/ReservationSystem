@@ -3,12 +3,12 @@ import { Filters } from "../../components/entertainmentList/filters";
 import { AllEntertainments } from "../../components/entertainmentList/allEntertainments";
 import { useQuery } from "react-query";
 import { getEntertainments } from "../../services/entertainment";
-import { GetEntertainments } from "../../types/entertainment";
+import { GetEntertainment } from "../../types/entertainment";
 import { Skeleton } from "antd";
 
 export const EntertainmentListPage = () => {
   const [entertainmentList, setEntertainmentList] = useState<
-    GetEntertainments[]
+    GetEntertainment[]
   >([]);
 
   const { isLoading } = useQuery({

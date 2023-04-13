@@ -1,17 +1,15 @@
 import { Button, Card, Divider, Rate, Image, Space } from "antd";
 import Meta from "antd/es/card/Meta";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { GetEntertainments } from "../../types/entertainment";
+import { Link } from "react-router-dom";
+import { GetEntertainment } from "../../types/entertainment";
 
 interface Props {
-  entertainmentList: GetEntertainments[];
+  entertainmentList: GetEntertainment[];
 }
 
 export const AllEntertainments = ({ entertainmentList }: Props) => {
   const [noReviews, setNoReviews] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     entertainmentList.forEach((element) => {
