@@ -66,7 +66,7 @@ export const EntertainmentDetailsPage = () => {
           <EntertainmentReviews reviews={entertainmentDetails?.reviews} />
         )}
         {isLoggedIn && <EntertainmentReview id={Number(id)} />}
-        <EntertainmentReservation />
+        {isLoggedIn && <EntertainmentReservation />}
       </Skeleton>
     </React.Fragment>
   );
