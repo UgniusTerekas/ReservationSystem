@@ -22,15 +22,18 @@ namespace ServiceLayer.EntertainmentService
         private readonly IEntertainmentRepository _entertainmentRepository;
         private readonly ICityRepository _cityRepository;
         private readonly ICategoriesRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
 
         public EntertainmentServices(
             IEntertainmentRepository entertainmentRepository,
             ICityRepository cityRepository,
-            ICategoriesRepository categoriesRepository)
+            ICategoriesRepository categoriesRepository,
+            IUserRepository userRepository)
         {
             _entertainmentRepository = entertainmentRepository;
             _cityRepository = cityRepository;
             _categoryRepository = categoriesRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<List<EntertainmentCardDto>> GetEntertainments()
@@ -88,6 +91,8 @@ namespace ServiceLayer.EntertainmentService
                 return null;
             }
 
+            var user = await _userRepository.GetUser(existingEntertainment.Reviews.Select(x => x.UserId).FirstOrDefault());
+
             var entertainmentDetails = new EntertainmentDto
             {
                 Name = existingEntertainment.EntertainmentName,
@@ -110,9 +115,11 @@ namespace ServiceLayer.EntertainmentService
                 Reviews = existingEntertainment.Reviews?.Select(c => new ReviewDto
                 {
                     Id = c.ReviewId,
-                    Username = c.User.UserName,
                     Description = c.Review,
-                    Rating = c.Rating
+                    Username = user.UserName,
+                    Rating = c.Rating,
+                    EntertainmentId = c.EntertainmentId
+                    
                 }).ToList(),
 
                 Categories = existingEntertainment.Categories.Select(c => new CategoryDto

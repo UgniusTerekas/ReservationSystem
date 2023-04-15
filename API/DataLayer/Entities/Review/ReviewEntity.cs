@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities.User;
+﻿using DataLayer.Entities.EntertainmentItem;
+using DataLayer.Entities.User;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,5 +18,10 @@ namespace DataLayer.Entities.Review
         public double Rating { get; set; }
 
         public string Review { get; set; }
+
+        [ForeignKey("Entertainment")]
+        public int EntertainmentId { get; set; }
+
+        public virtual EntertainmentItemEntity Entertainment { get; set; }
     }
 }

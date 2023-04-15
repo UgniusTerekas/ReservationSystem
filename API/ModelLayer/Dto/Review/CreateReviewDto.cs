@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace ModelLayer.Dto.Review
 {
-    public class ReviewDto
+    public class CreateReviewDto
     {
-        public int Id { get; set; }
-
-        public string Username { get; set; }
+        public int EntertainmentId { get; set; }
 
         public double Rating { get; set; }
 
         public string Description { get; set; }
-
-        public int EntertainmentId { get; set; }
     }
 }

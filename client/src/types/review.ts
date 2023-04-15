@@ -4,3 +4,9 @@ export interface GetReviews {
   rating: number;
   description: string;
 }
+
+export interface CreateReview {
+  entertainmentId: number;
+  rating: number;
+  description: string;
+}
