@@ -133,7 +133,7 @@ namespace ServiceLayer.EntertainmentService
             return entertainmentDetails;
         }
 
-        public async Task<bool> CreateEntertainment(CreateEntertainmentDto createEntertainment)
+        public async Task<int> CreateEntertainment(CreateEntertainmentDto createEntertainment)
         {
             var entertainmentEntity = new EntertainmentItemEntity
             {
@@ -163,13 +163,13 @@ namespace ServiceLayer.EntertainmentService
             if (entertainmentEntity != null)
             {
                 var result = await _entertainmentRepository.CreateEntertainment(entertainmentEntity);
-                if (result == null)
+                if (result != null)
                 {
-                    return false;
+                    return result.EntertainmentId;
                 }
             }
 
-            return true;
+            return -1;
         }
 
         public async Task<bool> UpdateEntertainment(UpdateEntertainmentDto updateModel)
