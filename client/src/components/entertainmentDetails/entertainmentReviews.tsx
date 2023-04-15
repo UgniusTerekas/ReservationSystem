@@ -1,30 +1,44 @@
 import { Divider, Rate, Typography } from "antd";
-import React, { useState } from "react";
+import { GetReviews } from "../../types/review";
+import React from "react";
 
 const { Title, Paragraph } = Typography;
 
-export const EntertainmentReviews = () => {
-  const [reviewer, setReviewer] = useState("John Doe");
-  const [review, setReview] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget semper nunc, quis rhoncus metus. Sed vitae bibendum nibh, vitae ultricies nisi. Aenean in elit ante."
-  );
-  const [rating, setRating] = useState(3);
+interface Props {
+  reviews: GetReviews[] | undefined;
+}
+
+export const EntertainmentReviews = ({ reviews }: Props) => {
   return (
     <React.Fragment>
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>
         {" "}
         Atsiliepimai
       </Divider>
-      <div style={{ backgroundColor: "white", marginInline: "30px" }}>
-        <Title style={{ paddingInline: 10 }} level={4}>
-          {reviewer}
-        </Title>
-        <Rate style={{ paddingInline: 10 }} disabled defaultValue={rating} />
-        {rating} / 5
-        <Paragraph style={{ paddingInline: 10, paddingTop: 5 }}>
-          {review} <br />
-        </Paragraph>
-      </div>
+      {reviews?.map((review) => (
+        <div
+          style={{
+            backgroundColor: "white",
+            marginInline: "30px",
+            marginTop: 10,
+          }}
+        >
+          <>
+            <Title style={{ paddingInline: 10 }} level={4}>
+              {review.username}
+            </Title>
+            <Rate
+              style={{ paddingInline: 10 }}
+              disabled
+              defaultValue={review.rating}
+            />
+            {review.rating} / 5
+            <Paragraph style={{ paddingInline: 10, paddingTop: 5 }}>
+              {review.description} <br />
+            </Paragraph>
+          </>
+        </div>
+      ))}
     </React.Fragment>
   );
 };

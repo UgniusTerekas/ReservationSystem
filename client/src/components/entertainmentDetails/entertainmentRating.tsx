@@ -1,7 +1,12 @@
 import { Divider, Rate, Typography } from "antd";
 import React from "react";
 
-export const EntertainmentRating = () => {
+interface Props {
+  rating: number;
+  name: string | undefined;
+}
+
+export const EntertainmentRating = ({ name, rating }: Props) => {
   return (
     <React.Fragment>
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>
@@ -9,16 +14,16 @@ export const EntertainmentRating = () => {
       </Divider>
       <div className="entertainment-rating-container">
         <Typography.Title level={2} className="entertainment-rating-text">
-          Pramogos Įvertinimas
+          {name}
         </Typography.Title>
         <Rate
           allowHalf
-          defaultValue={2.5}
+          defaultValue={rating}
           disabled
           className="entertainment-rating-stars"
         />
         <Typography.Text className="entertainment-rating-number">
-          {2.5} / 5.0
+          {rating.toFixed(1)} / 5.0
         </Typography.Text>
       </div>
     </React.Fragment>
