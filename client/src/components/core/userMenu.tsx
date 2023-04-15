@@ -16,6 +16,10 @@ export const UserMenu = () => {
     navigate("/prisijungimas");
   };
 
+  const createEntertainmentHandler = () => {
+    navigate("/kurti/pramoga");
+  };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -26,6 +30,17 @@ export const UserMenu = () => {
           label: "Atsijungti",
           icon: <LogoutOutlined />,
           onClick: logoutHandler,
+        },
+      ],
+    },
+    {
+      key: "2",
+      type: "group",
+      children: [
+        {
+          key: "1-2",
+          label: "Kurti pramogą",
+          onClick: createEntertainmentHandler,
         },
       ],
     },

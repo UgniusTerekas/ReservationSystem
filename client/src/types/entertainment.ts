@@ -20,3 +20,11 @@ export interface GetEntertainmentDetails {
   gallery: GetGallery[];
   reviews: GetReviews[];
 }
+
+export interface CreateEntertainment {
+  name: string | undefined;
+  description: string | undefined;
+  price: number | undefined;
+  citiesIds: number[] | undefined;
+  categoriesIds: number[] | undefined;
+}

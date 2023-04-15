@@ -13,6 +13,9 @@ import {
 import { QueryClient, QueryClientProvider } from "react-query";
 import { EntertainmentListPage } from "./pages/entertainment/entertainmentListPage";
 import { EntertainmentDetailsPage } from "./pages/entertainment/entertainmentDetailsPage";
+import { EntertainmentCreate } from "./components/entertainmentCreate/entertainmentCreate";
+import { CreateEntertainmentImage } from "./components/entertainmentCreate/crreateEntertainmentImage";
+import { CreateImagePage } from "./pages/images/createImagePage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -47,6 +50,11 @@ export const App = () => {
           <Route path="/pagrindinis" element={<MainPage />} />
           <Route path="/pramogos" element={<EntertainmentListPage />} />
           <Route path="/pramoga/:id" element={<EntertainmentDetailsPage />} />
+          <Route
+            path="/kurti/nuotrauka/:entertainmentId"
+            element={<CreateImagePage />}
+          />
+          <Route path="/kurti/pramoga" element={<EntertainmentCreate />} />
           <Route path="/prisijungimas" element={<LoginPage />} />
           <Route path="/registracija" element={<RegisterPage />} />
         </Route>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  CreateEntertainment,
   GetEntertainment,
   GetEntertainmentDetails,
 } from "../types/entertainment";
@@ -32,4 +33,15 @@ export const getEntertainmentDetails = async (
   );
 
   return data;
+};
+
+export const createEntertainment = async (
+  createEntertainmentRequest: CreateEntertainment
+) => {
+  const response = await axios.post<number>(
+    BACK_END_API + "/api/Entertainment/Entertainment",
+    createEntertainmentRequest
+  );
+
+  return response;
 };

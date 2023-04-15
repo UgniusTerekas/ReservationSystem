@@ -56,17 +56,17 @@ namespace API.Controllers
         }
 
         [HttpPost("Entertainment")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateEntertainment(CreateEntertainmentDto createEntertainmentDto)
         {
             var result = await _entertainmentServices.CreateEntertainment(createEntertainmentDto);
 
-            if (result == false)
+            if (result == -1)
             {
                 return BadRequest();
             }
 
-            return Created(string.Empty, true);
+            return Created(string.Empty, result);
         }
 
         [HttpPatch("Entertainment")]

@@ -104,3 +104,11 @@ li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child.atsijungtiLink 
 .entertainmentList .ant-card-body {
   height: 152px;
 }
+
+.span.ant-select-selection-item {
+  text-align: start !important;
+}
+
+span.ant-select-selection-item {
+  text-align: start;
+}
