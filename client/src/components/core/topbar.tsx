@@ -1,9 +1,7 @@
 import { Menu, MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { isValidToken } from "../../recoil/authStates";
-import { removeLocalTokens } from "../../services/tokenServices";
+import { UserMenu } from "./userMenu";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -28,23 +26,10 @@ const getItem = (
 export const TopBar = () => {
   const location = useLocation();
 
-  const [, setTokenValidation] = useRecoilState(isValidToken);
-
-  const logoutHandler = () => {
-    setTokenValidation(false);
-    removeLocalTokens();
-  };
-
   const items: MenuProps["items"] = [
     getItem(<Link to={"/pagrindinis"}>Pagrindinis</Link>, "pagrindinis"),
     getItem(<Link to={"/pramogos"}>Pramogos</Link>, "pramogos"),
-    getItem(
-      <Link to={"/prisijungimas"} onClick={logoutHandler}>
-        Atsijungti
-      </Link>,
-      "atsijungti",
-      "atsijungtiLink"
-    ),
+    getItem(<UserMenu />, "atsijungti", "atsijungtiLink"),
   ];
 
   return (
