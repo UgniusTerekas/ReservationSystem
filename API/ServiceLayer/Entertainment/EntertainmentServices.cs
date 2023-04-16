@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace ServiceLayer.EntertainmentService
 {
@@ -49,7 +50,7 @@ namespace ServiceLayer.EntertainmentService
                      Image = e.Gallery.FirstOrDefault() != null ? new GalleryDto
                      {
                          ImageId = e.Gallery.First().ImageId,
-                         ImageLocation = e.Gallery.First().ImageLocation,
+                         ImageLocation = "https://localhost:7229" + e.Gallery.First().ImageLocation,
                          ImageName = e.Gallery.First().ImageName
                      } : null,
                      Rating = e.Reviews.Any() ? e.Reviews.Average(r => r.Rating) : 0.0
