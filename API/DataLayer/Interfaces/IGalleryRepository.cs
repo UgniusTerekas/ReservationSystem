@@ -14,5 +14,6 @@ namespace DataLayer.Interfaces
         Task<List<GalleryEntity>> GetGalleries();
         Task<GalleryEntity> GetOneGallery(int galleryId);
         Task<GalleryEntity> UpdateGallery(GalleryEntity gallery);
+        Task<bool> AddImageToDataBase(GalleryEntity galleryEntity);
     }
 }
