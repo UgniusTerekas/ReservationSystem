@@ -3,6 +3,7 @@ using DataLayer.Repositories.Auth;
 using DataLayer.Repositories.Category;
 using DataLayer.Repositories.CityRepository.cs;
 using DataLayer.Repositories.Entertainment;
+using DataLayer.Repositories.GalleryRepository;
 using DataLayer.Repositories.Review;
 using DataLayer.Repositories.User;
 using ServiceLayer.AuthServices;
@@ -30,6 +31,8 @@ namespace API
             serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
             serviceCollection.AddScoped<IReviewServices, ReviewServices>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IGalleryServices, GalleryServices>();
+            serviceCollection.AddScoped<IGalleryRepository, GalleryRepository>();
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using DataLayer;
 using API;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 var app = builder.Build();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Environment.CurrentDirectory, "Images")),
+    RequestPath = "/Images"
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -10,5 +10,7 @@ namespace ServiceLayer.Interfaces
     public interface IGalleryServices
     {
         Task<GalleryDto> AddImageToGallery(CreateGalleryDto createGallery, int id);
+
+        Task<bool> AddImageToDataBase(GalleryDto galleryDto);
     }
 }

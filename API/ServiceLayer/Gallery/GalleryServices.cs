@@ -39,5 +39,17 @@ namespace ServiceLayer.GalleryServices
                 ImageLocation = image.ImageLocation,
             };
         }
+
+        public async Task<bool> AddImageToDataBase(GalleryDto galleryDto)
+        {
+            var galleryEntity = new GalleryEntity
+            {
+                ImageLocation = galleryDto.ImageLocation,
+                ImageName = galleryDto.ImageName,
+                EntertainmentId = (int)galleryDto.EntertainmentId
+            };
+
+            return await _galleryRepository.AddImageToDataBase(galleryEntity);
+        }
     }
 }
