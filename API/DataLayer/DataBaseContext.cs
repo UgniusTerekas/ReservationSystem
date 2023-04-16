@@ -2,6 +2,7 @@
 using DataLayer.Entities.City;
 using DataLayer.Entities.EntertainmentItem;
 using DataLayer.Entities.Gallery;
+using DataLayer.Entities.Reservation;
 using DataLayer.Entities.Review;
 using DataLayer.Entities.User;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace DataLayer
 
         public virtual DbSet<EntertainmentItemEntity> Entertainments { get; set; }
 
+        public virtual DbSet<ReservationEntity> Reservations { get; set; }
+
         public DataBaseContext()
         {
         }
@@ -46,6 +49,12 @@ namespace DataLayer
                 .HasOne(u => u.State)
                 .WithMany()
                 .HasForeignKey(u => u.StateId);
+
+            modelBuilder.Entity<EntertainmentItemEntity>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Entertainments)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -4,6 +4,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230416154231_Reservations")]
+    partial class Reservations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,12 +116,7 @@ namespace DataLayer.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("EntertainmentId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Entertainments");
                 });
@@ -324,17 +322,6 @@ namespace DataLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.EntertainmentItem.EntertainmentItemEntity", b =>
-                {
-                    b.HasOne("DataLayer.Entities.User.UserEntity", "User")
-                        .WithMany("Entertainments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Gallery.GalleryEntity", b =>
                 {
                     b.HasOne("DataLayer.Entities.EntertainmentItem.EntertainmentItemEntity", "Entertainment")
@@ -410,11 +397,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.User.UserEntity", b =>
-                {
-                    b.Navigation("Entertainments");
                 });
 #pragma warning restore 612, 618
         }

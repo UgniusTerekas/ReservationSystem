@@ -1,4 +1,6 @@
-﻿using ModelLayer.Enums.UserEnums;
+﻿using DataLayer.Entities.EntertainmentItem;
+using DataLayer.Entities.Reservation;
+using ModelLayer.Enums.UserEnums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +13,11 @@ namespace DataLayer.Entities.User
 {
     public class UserEntity
     {
+        public UserEntity()
+        {
+            Entertainments = new HashSet<EntertainmentItemEntity>();
+        }
+
         [Key]
         public int UserId { get; set; }
 
@@ -39,5 +46,7 @@ namespace DataLayer.Entities.User
 
         [Required]
         public DateTime RegistrationDate { get; set; }
+
+        public ICollection<EntertainmentItemEntity> Entertainments { get; set; }
     }
 }

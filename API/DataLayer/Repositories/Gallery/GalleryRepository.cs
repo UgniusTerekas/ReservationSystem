@@ -26,7 +26,7 @@ namespace DataLayer.Repositories.GalleryRepository
 
         public async Task<bool> AddImageToDataBase(GalleryEntity galleryEntity)
         {
-            await _dbContext.Gallery.AddAsync(galleryEntity);
+            _dbContext.Gallery.Add(galleryEntity);
 
             await _dbContext.SaveChangesAsync();
 
