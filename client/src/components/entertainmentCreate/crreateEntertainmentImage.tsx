@@ -1,8 +1,12 @@
 import { UploadOutlined } from "@ant-design/icons";
+import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { Button, Divider, Space, Upload, message } from "antd";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { postImages } from "../../services/imageServices";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 export const CreateEntertainmentImage = () => {
   const { entertainmentId } = useParams();
@@ -11,6 +15,14 @@ export const CreateEntertainmentImage = () => {
 
   const [fileList, setFileList] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const UploadThumbail = (event: FileUploadHandlerEvent) => {
+    const preFiles: File[] = [];
+    event.files.forEach((file) => {
+      preFiles.push(file);
+    });
+    setFileList(preFiles);
+  };
 
   const handleUpload = (info: any) => {
     let fileList = [...info.fileList];
@@ -39,16 +51,18 @@ export const CreateEntertainmentImage = () => {
     formData.append("id", entertainmentId!);
 
     fileList.forEach((image) => {
-      var file = new File([image], image.name);
+      const file = new File([image.slice()], image.name, { type: image.type });
+      console.log(file);
       formData.append("fileNames", image.name);
-      formData.append("images", file);
+      formData.append("images", image);
     });
 
     try {
       await postImages(formData);
       setIsLoading(false);
-      navigate("/");
+      navigate("/pramogos");
     } catch {
+      error();
       setIsLoading(false);
     }
 
@@ -76,16 +90,24 @@ export const CreateEntertainmentImage = () => {
         }}
       >
         <Space direction="vertical">
-          <Upload
-            beforeUpload={() => false}
-            multiple
-            fileList={fileList as any[]}
-            onChange={handleUpload}
+          <FileUpload
+            name="demo[]"
+            multiple={true}
+            auto
+            maxFileSize={100000000}
+            customUpload={true}
+            uploadHandler={UploadThumbail}
             onRemove={handleRemove}
+            emptyTemplate={
+              <p className="m-0">Įkelkite nuotraukas vilkdami ant ekrano</p>
+            }
+          />
+          <Button
+            size="large"
+            style={{ backgroundColor: "#6366F1", color: "white" }}
+            loading={isLoading}
+            onClick={postRequestHandler}
           >
-            <Button icon={<UploadOutlined />}>Pasirinkti failus</Button>
-          </Upload>
-          <Button loading={isLoading} onClick={postRequestHandler}>
             Issaugoti
           </Button>
         </Space>

@@ -7,7 +7,7 @@ export interface GetEntertainment {
   id: number;
   name: "string";
   price: number;
-  image: string;
+  image: GetGallery;
   rating: number;
 }
 

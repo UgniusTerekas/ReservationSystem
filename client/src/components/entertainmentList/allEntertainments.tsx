@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Rate, Image, Space } from "antd";
 import Meta from "antd/es/card/Meta";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { GetEntertainment } from "../../types/entertainment";
 
@@ -9,16 +9,6 @@ interface Props {
 }
 
 export const AllEntertainments = ({ entertainmentList }: Props) => {
-  const [noReviews, setNoReviews] = useState(false);
-
-  useEffect(() => {
-    entertainmentList.forEach((element) => {
-      if (element.rating === 0) {
-        setNoReviews(true);
-      }
-    });
-  }, [entertainmentList]);
-
   return (
     <React.Fragment>
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>
@@ -38,7 +28,9 @@ export const AllEntertainments = ({ entertainmentList }: Props) => {
               cover={
                 <Image
                   src={
-                    element.image ? element.image : "https://picsum.photos/200"
+                    element.image
+                      ? element.image.imageLocation
+                      : "https://picsum.photos/200"
                   }
                   style={{ height: "200px", objectFit: "cover" }}
                 />
@@ -51,7 +43,7 @@ export const AllEntertainments = ({ entertainmentList }: Props) => {
                 </Link>,
               ]}
             >
-              {!noReviews && (
+              {element.rating >= 0 && (
                 <Meta
                   title={
                     <div style={{ whiteSpace: "normal" }}>{element.name}</div>
@@ -69,7 +61,7 @@ export const AllEntertainments = ({ entertainmentList }: Props) => {
                   }
                 />
               )}
-              {noReviews && (
+              {element.rating === undefined && (
                 <Meta
                   title={
                     <div style={{ whiteSpace: "normal" }}>{element.name}</div>
