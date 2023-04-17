@@ -1,6 +1,7 @@
 ﻿using DataLayer.Entities.Category;
 using DataLayer.Entities.City;
 using DataLayer.Entities.EntertainmentItem;
+using DataLayer.Entities.Reservation;
 using DataLayer.Interfaces;
 using DataLayer.Repositories.CityRepository.cs;
 using ModelLayer.Dto.Category;
@@ -134,13 +135,16 @@ namespace ServiceLayer.EntertainmentService
             return entertainmentDetails;
         }
 
-        public async Task<int> CreateEntertainment(CreateEntertainmentDto createEntertainment)
+        public async Task<int> CreateEntertainment(
+            CreateEntertainmentDto createEntertainment,
+            int id)
         {
             var entertainmentEntity = new EntertainmentItemEntity
             {
                 EntertainmentName = createEntertainment.Name,
                 EntertainmentDescription = createEntertainment.Description,
                 Price = createEntertainment.Price,
+                UserId = id,
             };
 
             foreach (var item in createEntertainment.CitiesIds)
@@ -159,7 +163,7 @@ namespace ServiceLayer.EntertainmentService
                 {
                     entertainmentEntity.Categories.Add(category);
                 }
-            }
+            }         
 
             if (entertainmentEntity != null)
             {

@@ -9,7 +9,7 @@ namespace ServiceLayer.Interfaces
 {
     public interface IEntertainmentServices
     {
-        Task<int> CreateEntertainment(CreateEntertainmentDto createEntertainment);
+        Task<int> CreateEntertainment(CreateEntertainmentDto createEntertainment, int id);
 
         Task<bool> DeleteEntertainment(int id);
 

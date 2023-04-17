@@ -59,7 +59,6 @@ export const EntertainmentCreate = () => {
       ...prevState,
       [name]: value,
     }));
-    console.log(value);
   };
 
   const handleSubmit = async () => {

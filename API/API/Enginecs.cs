@@ -4,6 +4,7 @@ using DataLayer.Repositories.Category;
 using DataLayer.Repositories.CityRepository.cs;
 using DataLayer.Repositories.Entertainment;
 using DataLayer.Repositories.GalleryRepository;
+using DataLayer.Repositories.Reservation;
 using DataLayer.Repositories.Review;
 using DataLayer.Repositories.User;
 using ServiceLayer.AuthServices;
@@ -12,6 +13,7 @@ using ServiceLayer.CityService;
 using ServiceLayer.EntertainmentService;
 using ServiceLayer.GalleryServices;
 using ServiceLayer.Interfaces;
+using ServiceLayer.Reservation;
 using ServiceLayer.Review;
 
 namespace API
@@ -33,6 +35,8 @@ namespace API
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IGalleryServices, GalleryServices>();
             serviceCollection.AddScoped<IGalleryRepository, GalleryRepository>();
+            serviceCollection.AddScoped<IReservationRepository, ReservationRepository>();
+            serviceCollection.AddScoped<IReservationServices, ReservationServices>();
         }
     }
 }
