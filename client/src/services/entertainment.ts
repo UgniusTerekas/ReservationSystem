@@ -4,6 +4,7 @@ import {
   GetEntertainment,
   GetEntertainmentDetails,
 } from "../types/entertainment";
+import { getLocalAccessToken } from "./tokenServices";
 
 const BACK_END_API = `https://localhost:7229`;
 
@@ -38,6 +39,8 @@ export const getEntertainmentDetails = async (
 export const createEntertainment = async (
   createEntertainmentRequest: CreateEntertainment
 ) => {
+  const token = getLocalAccessToken();
+  axios.defaults.headers.post["Authorization"] = `Bearer ${token}`;
   const response = await axios.post<number>(
     BACK_END_API + "/api/Entertainment/Entertainment",
     createEntertainmentRequest

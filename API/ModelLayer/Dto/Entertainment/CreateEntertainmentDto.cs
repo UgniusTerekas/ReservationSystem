@@ -1,6 +1,7 @@
 ﻿using ModelLayer.Dto.Category;
 using ModelLayer.Dto.City;
 using ModelLayer.Dto.Gallery;
+using ModelLayer.Dto.Reservation;
 using ModelLayer.Dto.Review;
 using System;
 using System.Collections.Generic;

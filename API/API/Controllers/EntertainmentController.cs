@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.Dto.City;
 using ModelLayer.Dto.Entertainment;
 using ServiceLayer.CityService;
 using ServiceLayer.Interfaces;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -55,11 +57,14 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("Entertainment")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateEntertainment(CreateEntertainmentDto createEntertainmentDto)
         {
-            var result = await _entertainmentServices.CreateEntertainment(createEntertainmentDto);
+            var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            var result = await _entertainmentServices.CreateEntertainment(createEntertainmentDto, id);
 
             if (result == -1)
             {
