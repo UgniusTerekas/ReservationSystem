@@ -1,4 +1,4 @@
-import { CreateEntertainmentImage } from "../../components/entertainmentCreate/crreateEntertainmentImage";
+import { CreateEntertainmentImage } from "../../components/entertainmentCreate/createEntertainmentImage";
 
 export const CreateImagePage = () => {
   return <CreateEntertainmentImage />;

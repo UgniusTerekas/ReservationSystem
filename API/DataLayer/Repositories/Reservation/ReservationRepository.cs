@@ -31,5 +31,10 @@ namespace DataLayer.Repositories.Reservation
         {
             return await _dbContext.Reservations.ToListAsync();
         }
+
+        public async Task<ReservationEntity> GetReservation(int reservationId)
+        {
+            return await _dbContext.Reservations.FindAsync(reservationId);
+        }
     }
 }

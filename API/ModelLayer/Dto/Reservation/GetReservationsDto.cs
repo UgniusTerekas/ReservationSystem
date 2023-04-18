@@ -20,8 +20,10 @@ namespace ModelLayer.Dto.Reservation
 
         public DateTime? EndTime { get; set; }
 
-        public int? BreakTime { get; set; }
+        public DateTime? BreakTime { get; set; }
 
         public int? MaxCount { get; set; }
+
+        public DateTime? Period { get; set; }
     }
 }

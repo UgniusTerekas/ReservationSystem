@@ -7,5 +7,7 @@ namespace ServiceLayer.Interfaces
         Task<bool> CreateReservation(CreateReservationDto createReservation, int id);
 
         Task<List<GetReservationsDto>> GetReservations();
+
+        Task<GetReservationFillDto> GetReservationFillData(int entertainmentId);
     }
 }

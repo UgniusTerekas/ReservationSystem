@@ -19,7 +19,7 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpPut("createReservation")]
+        [HttpPost("createReservation")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateReservation(CreateReservationDto createReservation)
         {
@@ -32,9 +32,18 @@ namespace API.Controllers
 
         [HttpGet("reservations")]
         [ProducesResponseType(typeof(List<GetReservationsDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> CreateReservation()
+        public async Task<IActionResult> GetReservations()
         {
             var result = await _reservationServices.GetReservations();
+
+            return Ok(result);
+        }
+
+        [HttpGet("reservations/fill/data")]
+        [ProducesResponseType(typeof(GetReservationFillDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetReservationFillData(int entertainmentId)
+        {
+            var result = await _reservationServices.GetReservationFillData(entertainmentId);
 
             return Ok(result);
         }

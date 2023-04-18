@@ -1,6 +1,10 @@
-import { Button, DatePicker, Divider } from "antd";
+import { Button, DatePicker, Divider, Skeleton } from "antd";
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
+import { ReservationFillDataModel } from "../../types/reservation";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { getReservationFillData } from "../../services/reservationServices";
 
 const availableTimeStyle: React.CSSProperties = {
   display: "inline-block",
@@ -20,10 +24,24 @@ const disabledTimeStyle: React.CSSProperties = {
 };
 
 export const EntertainmentReservation = () => {
+  const { id } = useParams();
+
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
+  const [reservationFillModel, setReservationFillModel] =
+    useState<ReservationFillDataModel>();
 
-  const handleDateChange = (date: Dayjs | null) => {
+  const query = useQuery({
+    queryKey: [`reservationFillData/${id || ""}`],
+    queryFn: ({ signal }) => {
+      return getReservationFillData(signal, Number(id));
+    },
+    onSuccess: (data) => {
+      setReservationFillModel(data);
+    },
+  });
+
+  const handleDateChange = async (date: Dayjs | null) => {
     setSelectedDate(date);
     setSelectedTime(null);
   };
@@ -96,15 +114,19 @@ export const EntertainmentReservation = () => {
         }}
       >
         <DatePicker value={selectedDate} onChange={handleDateChange} />
-        {selectedDate && <div style={{ marginTop: 20 }}>{getTimeSlots()}</div>}
-        <Button
-          style={{ marginTop: 15 }}
-          type="primary"
-          onClick={handleSubmit}
-          disabled={!selectedTime}
-        >
-          Submit
-        </Button>
+        <Skeleton active loading={query.isLoading}>
+          {selectedDate && (
+            <div style={{ marginTop: 20 }}>{getTimeSlots()}</div>
+          )}
+          <Button
+            style={{ marginTop: 15 }}
+            type="primary"
+            onClick={handleSubmit}
+            disabled={!selectedTime}
+          >
+            Submit
+          </Button>
+        </Skeleton>
       </div>
     </React.Fragment>
   );

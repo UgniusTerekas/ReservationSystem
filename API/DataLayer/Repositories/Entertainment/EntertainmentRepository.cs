@@ -60,6 +60,7 @@ namespace DataLayer.Repositories.Entertainment
                 .Include(e => e.Cities)
                 .Include(e => e.Categories)
                 .Include(e => e.Reviews)
+                .Include(e => e.Reservations)
                 .FirstOrDefaultAsync(e => 
                     e.EntertainmentId == entertainmentId);
         }

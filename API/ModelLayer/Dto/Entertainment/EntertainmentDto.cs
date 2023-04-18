@@ -1,6 +1,7 @@
 ﻿using ModelLayer.Dto.Category;
 using ModelLayer.Dto.City;
 using ModelLayer.Dto.Gallery;
+using ModelLayer.Dto.Reservation;
 using ModelLayer.Dto.Review;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,7 @@ namespace ModelLayer.Dto.Entertainment
         public ICollection<CategoryDto> Categories { get; set; }
         
         public ICollection<ReviewDto> Reviews { get; set; }
+
+        public ICollection<GetReservationsDto> Reservations { get; set; }
     }
 }

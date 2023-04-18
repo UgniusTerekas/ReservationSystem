@@ -14,7 +14,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { EntertainmentListPage } from "./pages/entertainment/entertainmentListPage";
 import { EntertainmentDetailsPage } from "./pages/entertainment/entertainmentDetailsPage";
 import { EntertainmentCreate } from "./components/entertainmentCreate/entertainmentCreate";
-import { CreateEntertainmentImage } from "./components/entertainmentCreate/crreateEntertainmentImage";
 import { CreateImagePage } from "./pages/images/createImagePage";
 
 const queryClient = new QueryClient({
