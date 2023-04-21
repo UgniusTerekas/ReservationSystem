@@ -24,10 +24,15 @@ export const EntertainmentReviews = ({ reviews }: Props) => {
           }}
         >
           <>
-            <Title style={{ paddingInline: 10 }} level={4}>
+            <Title
+              key={review.description}
+              style={{ paddingInline: 10 }}
+              level={4}
+            >
               {review.username}
             </Title>
             <Rate
+              key={review.id}
               style={{ paddingInline: 10 }}
               disabled
               defaultValue={review.rating}

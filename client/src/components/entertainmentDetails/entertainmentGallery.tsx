@@ -13,7 +13,6 @@ export const EntertainmentGallery = ({ gallery }: Props) => {
     setCurrentSlide(current);
   };
 
-  console.log(gallery);
   return (
     <React.Fragment>
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>

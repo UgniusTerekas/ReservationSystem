@@ -1,7 +1,6 @@
 import { Button, DatePicker, Divider, Skeleton } from "antd";
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import { ReservationFillDataModel } from "../../types/reservation";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getReservationFillData } from "../../services/reservationServices";
@@ -28,8 +27,10 @@ export const EntertainmentReservation = () => {
 
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
-  const [reservationFillModel, setReservationFillModel] =
-    useState<ReservationFillDataModel>();
+  const [startTime, setStartTime] = useState<string>();
+  const [endTime, setEndTime] = useState<string>();
+  const [breakTime, setBreakTime] = useState<string>();
+  const [periodTime, setPeriodTime] = useState<string>();
 
   const query = useQuery({
     queryKey: [`reservationFillData/${id || ""}`],
@@ -37,7 +38,10 @@ export const EntertainmentReservation = () => {
       return getReservationFillData(signal, Number(id));
     },
     onSuccess: (data) => {
-      setReservationFillModel(data);
+      setStartTime(data.startTime);
+      setEndTime(data.endTime);
+      setBreakTime(data.breakTime);
+      setPeriodTime(data.periodTime);
     },
   });
 
@@ -46,9 +50,17 @@ export const EntertainmentReservation = () => {
     setSelectedTime(null);
   };
 
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+
   const handleTimeClick = (time: Dayjs) => {
-    setSelectedTime(time);
+    const timeStr = time.format("HH:mm");
+    setSelectedTimes([timeStr]);
+    setSelectedTime((prevState) =>
+      prevState?.format("HH:mm") === timeStr ? null : time
+    );
   };
+
+  console.log(selectedTime?.format("HH:mm"));
 
   const disabledTimes: Dayjs[] = [
     dayjs("2023-04-09 12:00"),
@@ -68,28 +80,65 @@ export const EntertainmentReservation = () => {
 
   const getTimeSlots = () => {
     const timeSlots = [];
-    const startHour = 9;
-    const endHour = 20;
+    const filledSlots = [] as string[];
 
-    for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute = 0; minute <= 45; minute += 15) {
+    const startDate = startTime ? new Date(startTime) : undefined;
+    let startHour = startDate?.getHours();
+    let startMinutes = startDate?.getMinutes();
+
+    const endDate = endTime ? new Date(endTime) : undefined;
+    let endHour = endDate?.getHours();
+
+    const breakDate = breakTime ? new Date(breakTime) : undefined;
+    let breakHour = breakDate?.getHours();
+    let breakMinutes = breakDate?.getMinutes();
+
+    const periodDate = periodTime ? new Date(periodTime) : undefined;
+    let periodHour = periodDate?.getHours();
+    let periodMinutes = periodDate?.getMinutes();
+
+    if (periodHour === 12) {
+      periodHour = 0;
+    }
+
+    for (
+      startHour;
+      startHour! <= endHour!;
+      startHour! += periodHour! + breakHour!
+    ) {
+      if (startHour === endHour) {
+        break;
+      }
+      startMinutes = 0;
+      for (
+        startMinutes;
+        startMinutes! <= 60;
+        startMinutes! += periodMinutes! + breakMinutes!
+      ) {
         const time = dayjs(selectedDate)
           .startOf("day")
-          .add(hour, "hours")
-          .add(minute, "minutes");
+          .add(startHour!, "hours")
+          .add(startMinutes!, "minutes");
         const isDisabled = disabledTime(time);
-        timeSlots.push(
-          <div
-            key={time.format("HH:mm")}
-            style={{
-              ...availableTimeStyle,
-              ...(isDisabled && disabledTimeStyle),
-            }}
-            onClick={!isDisabled ? () => handleTimeClick(time) : undefined}
-          >
-            {time.format("HH:mm")}
-          </div>
-        );
+        if (!filledSlots.some((t) => t === time.format("HH:mm"))) {
+          timeSlots.push(
+            <div
+              key={time.format("HH:mm")}
+              style={{
+                ...availableTimeStyle,
+                ...(selectedTimes.includes(time.format("HH:mm")) && {
+                  backgroundColor: "#7FBF7F", // selected color
+                }),
+                ...(selectedTime == null && { backgroundColor: "#fff" }), // remove background color if no selected time
+                ...(isDisabled && disabledTimeStyle),
+              }}
+              onClick={!isDisabled ? () => handleTimeClick(time) : undefined}
+            >
+              {time.format("HH:mm")}
+            </div>
+          );
+          filledSlots.push(time.format("HH:mm"));
+        }
       }
     }
     return timeSlots;
