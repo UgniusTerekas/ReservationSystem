@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace ModelLayer.Dto.Reservation
 {
-    public class CreateReservationDto
+    public class GetReservationFillDto
     {
+        public int ReservationId { get; set; }
+
         public int EntertainmentId { get; set; }
 
-        public int UserId { get; set; }
+        public string Date { get; set; }
 
         public string StartTime { get; set; }
 
@@ -18,8 +20,8 @@ namespace ModelLayer.Dto.Reservation
 
         public string BreakTime { get; set; }
 
-        public int MaxCount { get; set; }
+        public string PeriodTime { get; set; }
 
-        public string Period { get; set; }
+        public int MaxCount { get; set; }
     }
 }

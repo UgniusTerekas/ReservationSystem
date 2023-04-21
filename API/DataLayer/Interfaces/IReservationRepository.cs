@@ -7,5 +7,7 @@ namespace DataLayer.Interfaces
         Task<bool> CreateReservation(ReservationEntity reservationEntity);
 
         Task<List<ReservationEntity>> GetReservations();
+
+        Task<ReservationEntity> GetReservation(int reservationId);
     }
 }

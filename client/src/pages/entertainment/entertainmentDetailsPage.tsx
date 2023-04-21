@@ -55,7 +55,9 @@ export const EntertainmentDetailsPage = () => {
           name={entertainmentDetails?.name}
           description={entertainmentDetails?.description}
         />
-        {entertainmentDetails?.gallery.length !== 0 && <EntertainmentGallery />}
+        {entertainmentDetails?.gallery.length !== 0 && (
+          <EntertainmentGallery gallery={entertainmentDetails?.gallery} />
+        )}
         {entertainmentDetails?.reviews.length !== 0 && (
           <EntertainmentRating
             name={entertainmentDetails?.name}

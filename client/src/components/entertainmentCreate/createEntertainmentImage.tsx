@@ -7,6 +7,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { CreateReservationModel } from "../../types/reservation";
+import { createEntertainmentReservation } from "../../services/reservationServices";
 
 export const CreateEntertainmentImage = () => {
   const format = "HH:mm";
@@ -23,6 +24,7 @@ export const CreateEntertainmentImage = () => {
       endTime: "",
       breakTime: -1,
       maxCount: -1,
+      period: -1,
     });
 
   const UploadThumbail = (event: FileUploadHandlerEvent) => {
@@ -49,19 +51,23 @@ export const CreateEntertainmentImage = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    handleChange("entertainmentId", entertainmentId);
 
-    const formData = new FormData();
+    if (fileList.length !== 0) {
+      const formData = new FormData();
 
-    formData.append("id", entertainmentId!);
+      formData.append("id", entertainmentId!);
 
-    fileList.forEach((image) => {
-      formData.append("fileNames", image.name);
-      formData.append("images", image);
-    });
+      fileList.forEach((image) => {
+        formData.append("fileNames", image.name);
+        formData.append("images", image);
+      });
+      await postImages(formData);
+      setIsLoading(false);
+    }
 
     try {
-      await postImages(formData);
-
+      await createEntertainmentReservation(reservationModel);
       setIsLoading(false);
       navigate("/pramogos");
     } catch {
@@ -78,8 +84,6 @@ export const CreateEntertainmentImage = () => {
       content: "Nepavyko įkelti duomenų!",
     });
   };
-
-  console.log(reservationModel);
 
   return (
     <React.Fragment>
@@ -159,10 +163,13 @@ export const CreateEntertainmentImage = () => {
                   />
                 </Space>
                 <Space wrap direction="horizontal">
-                  <p style={{ fontSize: 16 }}>Rezervacijos intervalas:</p>
-                  <Input
-                    onChange={(e) => handleChange("breakTime", e.target.value)}
-                    placeholder="Kas 15, kas 30, kas 1 valandą"
+                  <p style={{ fontSize: 16 }}>Pertrauka tarp rezervacijų:</p>
+                  <TimePicker
+                    key="breakTime"
+                    onChange={(time) =>
+                      handleChange("breakTime", time ? time.format(format) : "")
+                    }
+                    format={format}
                     style={{ width: 260 }}
                   />
                 </Space>
@@ -172,6 +179,17 @@ export const CreateEntertainmentImage = () => {
                   </p>
                   <Input
                     onChange={(e) => handleChange("maxCount", e.target.value)}
+                    style={{ width: 260 }}
+                  />
+                </Space>
+                <Space wrap direction="horizontal">
+                  <p style={{ fontSize: 16 }}>Rezervacijų Trukmė:</p>
+                  <TimePicker
+                    key="period"
+                    onChange={(time) =>
+                      handleChange("period", time ? time.format(format) : "")
+                    }
+                    format={format}
                     style={{ width: 260 }}
                   />
                 </Space>

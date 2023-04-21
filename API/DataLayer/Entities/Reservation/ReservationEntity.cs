@@ -23,14 +23,16 @@ namespace DataLayer.Entities.Reservation
 
         public virtual UserEntity User { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
-        public int BreakTime { get; set; }
+        public DateTime? BreakTime { get; set; }
 
         public int MaxCount { get; set; }
+
+        public DateTime? PeriodTime { get; set; }
     }
 }

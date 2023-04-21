@@ -8,6 +8,7 @@ using ModelLayer.Dto.Category;
 using ModelLayer.Dto.City;
 using ModelLayer.Dto.Entertainment;
 using ModelLayer.Dto.Gallery;
+using ModelLayer.Dto.Reservation;
 using ModelLayer.Dto.Review;
 using ServiceLayer.Interfaces;
 using System;
@@ -105,14 +106,16 @@ namespace ServiceLayer.EntertainmentService
                     ImageId = c.ImageId,
                     ImageName = c.ImageName,
                     ImageLocation = c.ImageLocation
-                }).ToList(),
+                })
+                .ToList(),
 
                 Cities = existingEntertainment.Cities.Select(c => new CityDto
                 {
                     CityId = c.CityId,
                     CityName = c.CityName,
                     CityImage = c.CityImage
-                }).ToList(),
+                })
+                .ToList(),
 
                 Reviews = existingEntertainment.Reviews?.Select(c => new ReviewDto
                 {
@@ -121,15 +124,31 @@ namespace ServiceLayer.EntertainmentService
                     Username = user.UserName,
                     Rating = c.Rating,
                     EntertainmentId = c.EntertainmentId
-                    
-                }).ToList(),
 
-                Categories = existingEntertainment.Categories.Select(c => new CategoryDto
+                })
+                .ToList(),
+
+                Reservations = existingEntertainment.Reservations?.Select(c => new GetReservationsDto
                 {
-                    CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName,
-                    CategoryImage = c.CategoryImage
-                }).ToList(),
+                    Id = c.ReservationId,
+                    EntertainmentId = c.EntertainmentId,
+                    UserId = c.UserId,
+                    Date = c.Date,
+                    StartTime = c.StartTime,
+                    EndTime = c.EndTime,
+                    BreakTime = c.BreakTime,
+                    Period = c.PeriodTime,
+                    MaxCount = c.MaxCount
+                })
+                .ToList(),
+
+            Categories = existingEntertainment.Categories.Select(c => new CategoryDto
+            {
+                CategoryId = c.CategoryId,
+                CategoryName = c.CategoryName,
+                CategoryImage = c.CategoryImage
+            })
+            .ToList(),
             };
 
             return entertainmentDetails;

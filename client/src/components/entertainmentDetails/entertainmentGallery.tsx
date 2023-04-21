@@ -1,14 +1,12 @@
 import { Carousel, Divider, Image } from "antd";
 import React, { useState } from "react";
+import { GetGallery } from "../../types/gallery";
 
-export const EntertainmentGallery = () => {
-  const images: string[] = [
-    "https://picsum.photos/600/600",
-    "https://picsum.photos/600/600",
-    "https://media.istockphoto.com/id/466187907/photo/landscape-aerial-view.jpg?s=612x612&w=0&k=20&c=4DAsAkuuXNxBtLWlL-dpQxFKoKsq3zpr6756Ke4eaao=",
-    "https://picsum.photos/600/600",
-  ];
+interface Props {
+  gallery: GetGallery[] | undefined;
+}
 
+export const EntertainmentGallery = ({ gallery }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   const handleSlideChange = (current: number) => {
@@ -26,7 +24,7 @@ export const EntertainmentGallery = () => {
         beforeChange={handleSlideChange}
         style={{ width: "100%", textAlign: "center" }}
       >
-        {images.map((image, index) => (
+        {gallery?.map((image, index) => (
           <div
             key={index}
             style={{
@@ -38,7 +36,7 @@ export const EntertainmentGallery = () => {
           >
             <Image
               className="galery"
-              src={image}
+              src={`https://localhost:7229${image.imageLocation}`}
               alt={`slide-${index}`}
               preview={false}
               style={{
