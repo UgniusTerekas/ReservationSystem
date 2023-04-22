@@ -15,6 +15,8 @@ import { EntertainmentListPage } from "./pages/entertainment/entertainmentListPa
 import { EntertainmentDetailsPage } from "./pages/entertainment/entertainmentDetailsPage";
 import { EntertainmentCreate } from "./components/entertainmentCreate/entertainmentCreate";
 import { CreateImagePage } from "./pages/images/createImagePage";
+import { CityEntertainmentListPage } from "./pages/entertainment/cityEntertainmentListPage";
+import { CategoryEntertainmentListPage } from "./pages/entertainment/categoryEntertainmentListPage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -48,6 +50,14 @@ export const App = () => {
         <Route path={"/"} element={<RootLayout />}>
           <Route path="/pagrindinis" element={<MainPage />} />
           <Route path="/pramogos" element={<EntertainmentListPage />} />
+          <Route
+            path="/pramogos/miestai/:cityId"
+            element={<CityEntertainmentListPage />}
+          />
+          <Route
+            path="/pramogos/kategorijos/:categoryId"
+            element={<CategoryEntertainmentListPage />}
+          />
           <Route path="/pramoga/:id" element={<EntertainmentDetailsPage />} />
           <Route
             path="/kurti/nuotrauka/:entertainmentId"

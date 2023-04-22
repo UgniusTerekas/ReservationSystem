@@ -62,9 +62,9 @@ namespace ServiceLayer.EntertainmentService
             return entertainmentDto;
         }
 
-        public async Task<List<EntertainmentCardDto>> GetEntertainments(int? cityId, int? categoryId)
+        public async Task<List<EntertainmentCardDto>> GetCityEntertainments(int cityId)
         {
-            var entertainments = await _entertainmentRepository.GetEntertainments(cityId, categoryId);
+            var entertainments = await _entertainmentRepository.GetCityEntertainments(cityId);
 
             var entertainmentDto = entertainments
                  .Select(e => new EntertainmentCardDto
@@ -75,7 +75,7 @@ namespace ServiceLayer.EntertainmentService
                      Image = e.Gallery.FirstOrDefault() != null ? new GalleryDto
                      {
                          ImageId = e.Gallery.First().ImageId,
-                         ImageLocation = e.Gallery.First().ImageLocation,
+                         ImageLocation = "https://localhost:7229" + e.Gallery.First().ImageLocation,
                          ImageName = e.Gallery.First().ImageName
                      } : null,
                      Rating = e.Reviews.Any() ? e.Reviews.Average(r => r.Rating) : 0.0
@@ -84,7 +84,30 @@ namespace ServiceLayer.EntertainmentService
 
             return entertainmentDto;
         }
-        
+
+        public async Task<List<EntertainmentCardDto>> GetCategoryEntertainments(int categoryId)
+        {
+            var entertainments = await _entertainmentRepository.GetCategoryEntertainments(categoryId);
+
+            var entertainmentDto = entertainments
+                 .Select(e => new EntertainmentCardDto
+                 {
+                     Id = e.EntertainmentId,
+                     Name = e.EntertainmentName,
+                     Price = e.Price,
+                     Image = e.Gallery.FirstOrDefault() != null ? new GalleryDto
+                     {
+                         ImageId = e.Gallery.First().ImageId,
+                         ImageLocation = "https://localhost:7229" + e.Gallery.First().ImageLocation,
+                         ImageName = e.Gallery.First().ImageName
+                     } : null,
+                     Rating = e.Reviews.Any() ? e.Reviews.Average(r => r.Rating) : 0.0
+                 })
+                 .ToList();
+
+            return entertainmentDto;
+        }
+
         public async Task<EntertainmentDto> GetEntertainmentDetails(int id)
         {
             var existingEntertainment = await _entertainmentRepository.GetEntertainment(id);
