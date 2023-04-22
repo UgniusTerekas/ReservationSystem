@@ -1,9 +1,13 @@
-import { Button, DatePicker, Divider, Skeleton } from "antd";
+import { Button, DatePicker, Divider, Skeleton, message } from "antd";
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getReservationFillData } from "../../services/reservationServices";
+import {
+  createUserReservation,
+  getReservationFillData,
+} from "../../services/reservationServices";
+import { CreateUserReservationModel } from "../../types/reservation";
 
 const availableTimeStyle: React.CSSProperties = {
   display: "inline-block",
@@ -25,12 +29,17 @@ const disabledTimeStyle: React.CSSProperties = {
 export const EntertainmentReservation = () => {
   const { id } = useParams();
 
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
   const [startTime, setStartTime] = useState<string>();
   const [endTime, setEndTime] = useState<string>();
   const [breakTime, setBreakTime] = useState<string>();
   const [periodTime, setPeriodTime] = useState<string>();
+  const [createUserReservationModel, setCreateUserReservationModel] =
+    useState<CreateUserReservationModel>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const query = useQuery({
     queryKey: [`reservationFillData/${id || ""}`],
@@ -59,8 +68,6 @@ export const EntertainmentReservation = () => {
       prevState?.format("HH:mm") === timeStr ? null : time
     );
   };
-
-  console.log(selectedTime?.format("HH:mm"));
 
   const disabledTimes: Dayjs[] = [
     dayjs("2023-04-09 12:00"),
@@ -127,9 +134,9 @@ export const EntertainmentReservation = () => {
               style={{
                 ...availableTimeStyle,
                 ...(selectedTimes.includes(time.format("HH:mm")) && {
-                  backgroundColor: "#7FBF7F", // selected color
+                  backgroundColor: "#7FBF7F",
                 }),
-                ...(selectedTime == null && { backgroundColor: "#fff" }), // remove background color if no selected time
+                ...(selectedTime == null && { backgroundColor: "#fff" }),
                 ...(isDisabled && disabledTimeStyle),
               }}
               onClick={!isDisabled ? () => handleTimeClick(time) : undefined}
@@ -144,13 +151,46 @@ export const EntertainmentReservation = () => {
     return timeSlots;
   };
 
-  const handleSubmit = () => {
-    console.log(`Selected date: ${selectedDate?.format("YYYY-MM-DD")}`);
-    console.log(`Selected time: ${selectedTime?.format("HH:mm")}`);
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setCreateUserReservationModel({
+      entertainmentId: Number(id),
+      reservationDate: selectedDate?.format("YYYY-MM-DD") ?? "",
+      reservationTime: selectedTime?.format("HH:mm") ?? "",
+    });
+    console.log(createUserReservationModel);
+    if (createUserReservationModel) {
+      try {
+        await createUserReservation(createUserReservationModel);
+        success();
+        setIsLoading(false);
+        setSelectedTime(null);
+      } catch {
+        error();
+        setIsLoading(false);
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Rezervacija sukurta!",
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Rezervacija nesukurta! Įvyko klaida!",
+    });
   };
 
   return (
     <React.Fragment>
+      {contextHolder}
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>
         Rezervacija
       </Divider>
@@ -172,6 +212,7 @@ export const EntertainmentReservation = () => {
             type="primary"
             onClick={handleSubmit}
             disabled={!selectedTime}
+            loading={isLoading}
           >
             Submit
           </Button>

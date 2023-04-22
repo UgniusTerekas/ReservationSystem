@@ -25,5 +25,7 @@ namespace ModelLayer.Dto.Reservation
         public int? MaxCount { get; set; }
 
         public DateTime? Period { get; set; }
+
+        public DateTime? ReservationTime { get; set;}
     }
 }

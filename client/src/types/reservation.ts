@@ -17,3 +17,9 @@ export interface ReservationFillDataModel {
   periodTime: string;
   maxCount: number;
 }
+
+export interface CreateUserReservationModel {
+  entertainmentId: number;
+  reservationDate: string;
+  reservationTime: string;
+}

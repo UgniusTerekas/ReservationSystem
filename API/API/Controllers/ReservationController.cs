@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModelLayer.Dto.Entertainment;
 using ModelLayer.Dto.Reservation;
 using ServiceLayer.Interfaces;
 using System.Security.Claims;
@@ -46,6 +47,18 @@ namespace API.Controllers
             var result = await _reservationServices.GetReservationFillData(entertainmentId);
 
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPatch("createUserReservation")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateUserReservation(CreateUserReservationDto createUserReservationDto)
+        {
+            var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            var result = await _reservationServices.CreateUserReservation(createUserReservationDto, id);
+
+            return Created(string.Empty, result);
         }
     }
 }
