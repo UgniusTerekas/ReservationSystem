@@ -64,6 +64,23 @@ namespace ServiceLayer.Reservation
                 .ToList();
         }
 
+        public async Task<List<GetReservationInfoForCustomer>> GetReservationsForUser(int userId)
+        {
+            var reservationEntity = await _reservationRepository.GetReservationsForUser(userId);
+
+            return reservationEntity
+                .Select(x => new GetReservationInfoForCustomer
+                {
+                    ReservationId = x.ReservationId,
+                    EntertainmentName = x.Entertainment.EntertainmentName,
+                    Date = x.Date.ToString(),
+                    Time = x.ReservationTime.ToString(),
+                    Price = x.Entertainment.Price,
+                    RemainingTime = ""
+                })
+                .ToList();
+        }
+
         public async Task<bool> CreateReservation(
             CreateReservationDto createReservation,
             int id)

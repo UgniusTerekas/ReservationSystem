@@ -54,8 +54,14 @@ export const AllEntertainments = ({ entertainmentList }: Props) => {
                       <span style={{ marginLeft: 10 }}>
                         {element.rating.toFixed(1)}
                       </span>
-                      <div style={{ marginTop: 10, fontWeight: "bold" }}>
-                        Price: {element.price}$
+                      <div
+                        style={{
+                          marginTop: 10,
+                          fontWeight: "bold",
+                          color: "black",
+                        }}
+                      >
+                        Kaina: {element.price}€
                       </div>
                     </div>
                   }

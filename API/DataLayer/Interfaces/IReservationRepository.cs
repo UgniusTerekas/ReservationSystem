@@ -13,5 +13,7 @@ namespace DataLayer.Interfaces
         Task<List<ReservationEntity>> GetEntertainmentReservations(
             int entertainmentId,
             DateTime dateSelected);
+
+        Task<List<ReservationEntity>> GetReservationsForUser(int userId);
     }
 }

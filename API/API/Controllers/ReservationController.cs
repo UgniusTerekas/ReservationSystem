@@ -31,6 +31,18 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpGet("userReservations")]
+        [ProducesResponseType(typeof(List<GetReservationInfoForCustomer>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserReservations()
+        {
+            var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            var result = await _reservationServices.GetReservationsForUser(id);
+
+            return Ok(result);
+        }
+
         [HttpGet("reservations")]
         [ProducesResponseType(typeof(List<GetReservationsDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetReservations()

@@ -20,6 +20,10 @@ export const UserMenu = () => {
     navigate("/kurti/pramoga");
   };
 
+  const customerInfoHandler = () => {
+    navigate("/vartotojas");
+  };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -27,9 +31,8 @@ export const UserMenu = () => {
       children: [
         {
           key: "1-1",
-          label: "Atsijungti",
-          icon: <LogoutOutlined />,
-          onClick: logoutHandler,
+          label: "Vartotojo informacija",
+          onClick: customerInfoHandler,
         },
       ],
     },
@@ -41,6 +44,18 @@ export const UserMenu = () => {
           key: "1-2",
           label: "Kurti pramogą",
           onClick: createEntertainmentHandler,
+        },
+      ],
+    },
+    {
+      key: "3",
+      type: "group",
+      children: [
+        {
+          key: "1-3",
+          label: "Atsijungti",
+          icon: <LogoutOutlined />,
+          onClick: logoutHandler,
         },
       ],
     },

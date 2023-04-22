@@ -17,6 +17,7 @@ import { EntertainmentCreate } from "./components/entertainmentCreate/entertainm
 import { CreateImagePage } from "./pages/images/createImagePage";
 import { CityEntertainmentListPage } from "./pages/entertainment/cityEntertainmentListPage";
 import { CategoryEntertainmentListPage } from "./pages/entertainment/categoryEntertainmentListPage";
+import { UserPage } from "./pages/userPage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -64,6 +65,7 @@ export const App = () => {
             element={<CreateImagePage />}
           />
           <Route path="/kurti/pramoga" element={<EntertainmentCreate />} />
+          <Route path="/vartotojas" element={<UserPage />} />
           <Route path="/prisijungimas" element={<LoginPage />} />
           <Route path="/registracija" element={<RegisterPage />} />
         </Route>

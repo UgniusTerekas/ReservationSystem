@@ -28,3 +28,12 @@ export interface EntertainmentReservationsModel {
   date: string;
   time: string;
 }
+
+export interface UserReservationsModel {
+  reservationId: number;
+  entertainmentName: string;
+  date: string;
+  time: string;
+  price: number;
+  remainingTime: string;
+}

@@ -88,7 +88,12 @@ export const EntertainmentReview = ({ id }: Props) => {
           <Rate allowHalf onChange={handleRatingChange} />
         </Form.Item>
         <Form.Item>
-          <Button loading={isLoading} type="primary" onClick={handleSubmit}>
+          <Button
+            disabled={rating < 0 && review.description.length < 6}
+            loading={isLoading}
+            type="primary"
+            onClick={handleSubmit}
+          >
             Paskelbti
           </Button>
         </Form.Item>
