@@ -60,5 +60,16 @@ namespace API.Controllers
 
             return Created(string.Empty, result);
         }
+
+        [HttpGet("entertainmentsReservations")]
+        [ProducesResponseType(typeof(List<EntertainmentReservationDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetEntertainmentReservations(
+            int entertainmentId,
+            string date)
+        {
+            var result = await _reservationServices.GetEntertainmentReservations(entertainmentId, date);
+
+            return Ok(result);
+        }
     }
 }

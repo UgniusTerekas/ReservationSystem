@@ -23,3 +23,8 @@ export interface CreateUserReservationModel {
   reservationDate: string;
   reservationTime: string;
 }
+
+export interface EntertainmentReservationsModel {
+  date: string;
+  time: string;
+}

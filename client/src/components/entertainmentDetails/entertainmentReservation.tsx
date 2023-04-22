@@ -1,13 +1,17 @@
 import { Button, DatePicker, Divider, Skeleton, message } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import {
   createUserReservation,
+  getEntertainmentReservations,
   getReservationFillData,
 } from "../../services/reservationServices";
-import { CreateUserReservationModel } from "../../types/reservation";
+import {
+  CreateUserReservationModel,
+  EntertainmentReservationsModel,
+} from "../../types/reservation";
 
 const availableTimeStyle: React.CSSProperties = {
   display: "inline-block",
@@ -31,6 +35,7 @@ export const EntertainmentReservation = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
 
+  /* USE STATES */
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
   const [startTime, setStartTime] = useState<string>();
@@ -40,7 +45,14 @@ export const EntertainmentReservation = () => {
   const [createUserReservationModel, setCreateUserReservationModel] =
     useState<CreateUserReservationModel>();
   const [isLoading, setIsLoading] = useState(false);
+  const [entertainmentReservations, setEntertainmentReservations] = useState<
+    EntertainmentReservationsModel[]
+  >([]);
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
 
+  /*------------------------------------------------------------------------ */
+
+  /*  USE QUERY  */
   const query = useQuery({
     queryKey: [`reservationFillData/${id || ""}`],
     queryFn: ({ signal }) => {
@@ -54,12 +66,34 @@ export const EntertainmentReservation = () => {
     },
   });
 
+  const entertainmentReservationQuery = useQuery({
+    queryKey: selectedDate
+      ? [`entertainmentReservations/${selectedDate.format("YYYY-MM-DD")}`]
+      : [],
+    queryFn: ({ signal }) => {
+      return getEntertainmentReservations(
+        signal,
+        Number(id),
+        selectedDate?.format("YYYY-MM-DD") ?? ""
+      );
+    },
+    onSuccess: (data) => {
+      setEntertainmentReservations(data);
+    },
+  });
+
+  useEffect(() => {
+    if (selectedDate) {
+      entertainmentReservationQuery.refetch();
+    }
+  }, [selectedDate]);
+  /*------------------------------------------------------------------------ */
+
+  /*  HANDLERS  */
   const handleDateChange = async (date: Dayjs | null) => {
     setSelectedDate(date);
     setSelectedTime(null);
   };
-
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
 
   const handleTimeClick = (time: Dayjs) => {
     const timeStr = time.format("HH:mm");
@@ -69,21 +103,24 @@ export const EntertainmentReservation = () => {
     );
   };
 
-  const disabledTimes: Dayjs[] = [
-    dayjs("2023-04-09 12:00"),
-    dayjs("2023-04-09 13:00"),
-    dayjs("2023-04-09 15:00"),
-  ];
+  const entertainmentSelectedTimesMapped = entertainmentReservations.map(
+    (element) => dayjs(element.time)
+  );
 
   const disabledTime = (current: Dayjs) => {
-    return (
-      disabledTimes.some(
-        (time) => time.format("HH:mm") === current.format("HH:mm")
-      ) ||
-      current.isBefore(dayjs(selectedDate).startOf("day").add(9, "hours")) ||
-      current.isAfter(dayjs(selectedDate).startOf("day").add(20, "hours"))
+    const repeatCount = query.data?.maxCount!;
+    const countMap = entertainmentSelectedTimesMapped.reduce(
+      (map, time) =>
+        map.set(time.format("HH:mm"), (map.get(time.format("HH:mm")) || 0) + 1),
+      new Map<string, number>()
     );
+    const currentCount = countMap.get(current.format("HH:mm")) || 0;
+    return currentCount >= repeatCount;
   };
+
+  const disabledTimes: string[] = entertainmentSelectedTimesMapped
+    .filter((time) => disabledTime(time))
+    .map((time) => time.format("HH-mm"));
 
   const getTimeSlots = () => {
     const timeSlots = [];
@@ -126,7 +163,9 @@ export const EntertainmentReservation = () => {
           .startOf("day")
           .add(startHour!, "hours")
           .add(startMinutes!, "minutes");
-        const isDisabled = disabledTime(time);
+        const isDisabled = disabledTimes.some((disabledTime) =>
+          disabledTime.match(time.format("HH-mm"))
+        );
         if (!filledSlots.some((t) => t === time.format("HH:mm"))) {
           timeSlots.push(
             <div
@@ -153,18 +192,20 @@ export const EntertainmentReservation = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
     setCreateUserReservationModel({
       entertainmentId: Number(id),
       reservationDate: selectedDate?.format("YYYY-MM-DD") ?? "",
       reservationTime: selectedTime?.format("HH:mm") ?? "",
     });
-    console.log(createUserReservationModel);
+
     if (createUserReservationModel) {
       try {
         await createUserReservation(createUserReservationModel);
         success();
         setIsLoading(false);
         setSelectedTime(null);
+        window.location.reload();
       } catch {
         error();
         setIsLoading(false);
@@ -174,6 +215,7 @@ export const EntertainmentReservation = () => {
     setIsLoading(false);
   };
 
+  /*  MESSAGES  */
   const success = () => {
     messageApi.open({
       type: "success",
@@ -187,6 +229,7 @@ export const EntertainmentReservation = () => {
       content: "Rezervacija nesukurta! Įvyko klaida!",
     });
   };
+  /*------------------------------------------------------------------------ */
 
   return (
     <React.Fragment>
@@ -203,7 +246,7 @@ export const EntertainmentReservation = () => {
         }}
       >
         <DatePicker value={selectedDate} onChange={handleDateChange} />
-        <Skeleton active loading={query.isLoading}>
+        <Skeleton active loading={entertainmentReservationQuery.isLoading}>
           {selectedDate && (
             <div style={{ marginTop: 20 }}>{getTimeSlots()}</div>
           )}
