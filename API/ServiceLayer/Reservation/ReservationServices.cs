@@ -47,6 +47,23 @@ namespace ServiceLayer.Reservation
                 .ToList();
         }
 
+        public async Task<List<EntertainmentReservationDto>> GetEntertainmentReservations(
+            int entertainmentId,
+            string date)
+        {
+            DateTime dateSelected = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            var reservations = await _reservationRepository.GetEntertainmentReservations(entertainmentId, dateSelected);
+
+            return reservations
+                .Select(x => new EntertainmentReservationDto
+                {
+                    Date = x.Date.ToString(),
+                    Time = x.ReservationTime.ToString()
+                })
+                .ToList();
+        }
+
         public async Task<bool> CreateReservation(
             CreateReservationDto createReservation,
             int id)

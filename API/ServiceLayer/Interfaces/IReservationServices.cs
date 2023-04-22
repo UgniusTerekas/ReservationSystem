@@ -5,7 +5,9 @@ namespace ServiceLayer.Interfaces
 {
     public interface IReservationServices
     {
-        Task<bool> CreateReservation(CreateReservationDto createReservation, int id);
+        Task<bool> CreateReservation(
+            CreateReservationDto createReservation,
+            int id);
 
         Task<List<GetReservationsDto>> GetReservations();
 
@@ -14,5 +16,9 @@ namespace ServiceLayer.Interfaces
         Task<bool> CreateUserReservation(
             CreateUserReservationDto createUserReservation,
             int userId);
+
+        Task<List<EntertainmentReservationDto>> GetEntertainmentReservations(
+            int entertainmentId,
+            string date);
     }
 }

@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   CreateReservationModel,
   CreateUserReservationModel,
+  EntertainmentReservationsModel,
   ReservationFillDataModel,
 } from "../types/reservation";
 import { getLocalAccessToken } from "./tokenServices";
@@ -46,6 +47,25 @@ export const createUserReservation = async (
   const { data } = await axios.patch<CreateReservationModel>(
     BACK_END_API + "/api/Reservation/createUserReservation",
     createUserReservationModel
+  );
+
+  return data;
+};
+
+export const getEntertainmentReservations = async (
+  signal: AbortSignal | undefined,
+  entertainmentId: number,
+  date: string
+) => {
+  const { data } = await axios.get<EntertainmentReservationsModel[]>(
+    BACK_END_API + "/api/Reservation/entertainmentsReservations",
+    {
+      signal,
+      params: {
+        entertainmentId,
+        date,
+      },
+    }
   );
 
   return data;
