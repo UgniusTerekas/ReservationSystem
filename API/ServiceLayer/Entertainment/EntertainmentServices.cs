@@ -138,7 +138,8 @@ namespace ServiceLayer.EntertainmentService
                     EndTime = c.EndTime,
                     BreakTime = c.BreakTime,
                     Period = c.PeriodTime,
-                    MaxCount = c.MaxCount
+                    MaxCount = c.MaxCount,
+                    ReservationTime = c.ReservationTime
                 })
                 .ToList(),
 

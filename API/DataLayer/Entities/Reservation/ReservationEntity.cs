@@ -34,5 +34,7 @@ namespace DataLayer.Entities.Reservation
         public int MaxCount { get; set; }
 
         public DateTime? PeriodTime { get; set; }
+
+        public DateTime? ReservationTime { get; set; }
     }
 }

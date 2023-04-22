@@ -1,6 +1,7 @@
 ﻿using DataLayer.Entities.Reservation;
 using DataLayer.Interfaces;
 using DataLayer.Migrations;
+using ModelLayer.Dto.Entertainment;
 using ModelLayer.Dto.Reservation;
 using ServiceLayer.Interfaces;
 using System;
@@ -41,6 +42,7 @@ namespace ServiceLayer.Reservation
                     BreakTime = x.BreakTime,
                     MaxCount = x.MaxCount,
                     Period = x.PeriodTime,
+                    ReservationTime = x.ReservationTime,
                 })
                 .ToList();
         }
@@ -105,6 +107,24 @@ namespace ServiceLayer.Reservation
                 PeriodTime = reservationEntity.PeriodTime.ToString(),
                 MaxCount = reservationEntity.MaxCount,
             };
+        }
+
+        public async Task<bool> CreateUserReservation(
+            CreateUserReservationDto createUserReservation,
+            int userId)
+        {
+            DateTime date = DateTime.ParseExact(createUserReservation.ReservationDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime reservationTime = DateTime.ParseExact(createUserReservation.ReservationTime, "HH:mm", CultureInfo.InvariantCulture);
+
+            var reservationEntity = new ReservationEntity
+            {
+                EntertainmentId = createUserReservation.EntertainmentId,
+                UserId = userId,
+                Date = date,
+                ReservationTime = reservationTime,
+            };
+
+            return await _reservationRepository.CreateReservation(reservationEntity);
         }
     }
 }

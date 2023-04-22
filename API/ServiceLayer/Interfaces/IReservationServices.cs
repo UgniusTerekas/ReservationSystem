@@ -1,4 +1,5 @@
-﻿using ModelLayer.Dto.Reservation;
+﻿using ModelLayer.Dto.Entertainment;
+using ModelLayer.Dto.Reservation;
 
 namespace ServiceLayer.Interfaces
 {
@@ -9,5 +10,9 @@ namespace ServiceLayer.Interfaces
         Task<List<GetReservationsDto>> GetReservations();
 
         Task<GetReservationFillDto> GetReservationFillData(int entertainmentId);
+
+        Task<bool> CreateUserReservation(
+            CreateUserReservationDto createUserReservation,
+            int userId);
     }
 }
