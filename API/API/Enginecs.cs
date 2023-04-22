@@ -15,6 +15,7 @@ using ServiceLayer.GalleryServices;
 using ServiceLayer.Interfaces;
 using ServiceLayer.Reservation;
 using ServiceLayer.Review;
+using ServiceLayer.User;
 
 namespace API
 {
@@ -33,6 +34,7 @@ namespace API
             serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
             serviceCollection.AddScoped<IReviewServices, ReviewServices>();
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IUserServices, UserServices>();
             serviceCollection.AddScoped<IGalleryServices, GalleryServices>();
             serviceCollection.AddScoped<IGalleryRepository, GalleryRepository>();
             serviceCollection.AddScoped<IReservationRepository, ReservationRepository>();

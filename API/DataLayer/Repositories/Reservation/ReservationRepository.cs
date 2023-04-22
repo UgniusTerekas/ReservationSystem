@@ -32,6 +32,21 @@ namespace DataLayer.Repositories.Reservation
             return await _dbContext.Reservations.ToListAsync();
         }
 
+        public async Task<List<ReservationEntity>> GetReservationsForUser(int userId)
+        {
+            var reservationEntity = await _dbContext
+                .Reservations
+                .Include(e => e.Entertainment)
+                .Where(x =>
+                    x.UserId == userId
+                    && x.Date != null
+                    && x.ReservationTime != null
+                    )
+                .ToListAsync();
+
+            return reservationEntity;
+        }
+
         public async Task<List<ReservationEntity>> GetEntertainmentReservations(
             int entertainmentId,
             DateTime dateSelected)

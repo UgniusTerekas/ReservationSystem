@@ -4,6 +4,7 @@ import {
   CreateUserReservationModel,
   EntertainmentReservationsModel,
   ReservationFillDataModel,
+  UserReservationsModel,
 } from "../types/reservation";
 import { getLocalAccessToken } from "./tokenServices";
 
@@ -47,6 +48,19 @@ export const createUserReservation = async (
   const { data } = await axios.patch<CreateReservationModel>(
     BACK_END_API + "/api/Reservation/createUserReservation",
     createUserReservationModel
+  );
+
+  return data;
+};
+
+export const getUserReservations = async (signal: AbortSignal | undefined) => {
+  const token = getLocalAccessToken();
+  axios.defaults.headers.get["Authorization"] = `Bearer ${token}`;
+  const { data } = await axios.get<UserReservationsModel[]>(
+    BACK_END_API + "/api/Reservation/userReservations",
+    {
+      signal,
+    }
   );
 
   return data;

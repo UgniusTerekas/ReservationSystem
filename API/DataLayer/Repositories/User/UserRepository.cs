@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities.User;
 using DataLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,31 @@ namespace DataLayer.Repositories.User
 
         public async Task<UserEntity> GetUser(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var userEntity = await _context
+                .Users
+                .Include(r => r.Role)
+                .Include(s => s.State)
+                .FirstOrDefaultAsync();
+
+            return userEntity;
+        }
+
+        public async Task<bool> EditUser(UserEntity editUser)
+        {
+            _context.Entry(editUser).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteUser(UserEntity userEntity)
+        {
+            _context.Users.Remove(userEntity);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

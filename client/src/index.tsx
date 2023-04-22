@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { App } from "./App";
 import "./App.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -22,7 +23,9 @@ root.render(
     >
       <BrowserRouter>
         <RecoilRoot>
-          <App />
+          <GoogleOAuthProvider clientId="1073024156022-fs6c0dilpr3ge1fl29i4d5uih9rmlq8k.apps.googleusercontent.com">
+            <App />
+          </GoogleOAuthProvider>
         </RecoilRoot>
       </BrowserRouter>
     </ConfigProvider>

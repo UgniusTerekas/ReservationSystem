@@ -9,6 +9,8 @@ namespace ServiceLayer.Interfaces
             CreateReservationDto createReservation,
             int id);
 
+        Task<List<GetReservationInfoForCustomer>> GetReservationsForUser(int userId);
+
         Task<List<GetReservationsDto>> GetReservations();
 
         Task<GetReservationFillDto> GetReservationFillData(int entertainmentId);
