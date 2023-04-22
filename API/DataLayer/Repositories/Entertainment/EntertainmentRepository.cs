@@ -30,7 +30,7 @@ namespace DataLayer.Repositories.Entertainment
                 .ToListAsync();
         }
 
-        public async Task<List<EntertainmentItemEntity>> GetEntertainments(int? cityId, int? categoryId)
+        public async Task<List<EntertainmentItemEntity>> GetCityEntertainments(int cityId)
         {
             var query = _dbContext
                 .Entertainments
@@ -44,6 +44,19 @@ namespace DataLayer.Repositories.Entertainment
             {
                 query = query.Where(e => e.Cities.Any(c => c.CityId == cityId));
             }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<List<EntertainmentItemEntity>> GetCategoryEntertainments(int categoryId)
+        {
+            var query = _dbContext
+                .Entertainments
+                .Include(x => x.Gallery)
+                .Include(x => x.Reviews)
+                .Include(x => x.Categories)
+                .Include(x => x.Cities)
+                .AsQueryable();
 
             if (categoryId != null)
             {

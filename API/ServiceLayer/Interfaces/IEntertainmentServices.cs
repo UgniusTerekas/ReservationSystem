@@ -15,7 +15,9 @@ namespace ServiceLayer.Interfaces
 
         Task<List<EntertainmentCardDto>> GetEntertainments();
 
-        Task<List<EntertainmentCardDto>> GetEntertainments(int? cityId, int? categoryId);
+        Task<List<EntertainmentCardDto>> GetCityEntertainments(int cityId);
+
+        Task<List<EntertainmentCardDto>> GetCategoryEntertainments(int categoryId);
 
         Task<bool> UpdateEntertainment(UpdateEntertainmentDto updateModel);
 

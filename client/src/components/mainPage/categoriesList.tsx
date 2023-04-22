@@ -26,7 +26,10 @@ export const CategoriesList = () => {
         style={{ justifyContent: "center", display: "flex", padding: "0 30px" }}
       >
         {query.data?.map((category) => (
-          <Link to={"/pramogos"} key={category.categoryId}>
+          <Link
+            to={`/pramogos/kategorijos/${category.categoryId}`}
+            key={category.categoryId}
+          >
             <Card
               hoverable
               cover={

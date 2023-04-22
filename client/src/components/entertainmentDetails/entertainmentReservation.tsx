@@ -173,7 +173,7 @@ export const EntertainmentReservation = () => {
               style={{
                 ...availableTimeStyle,
                 ...(selectedTimes.includes(time.format("HH:mm")) && {
-                  backgroundColor: "#7FBF7F",
+                  backgroundColor: "#6366F1",
                 }),
                 ...(selectedTime == null && { backgroundColor: "#fff" }),
                 ...(isDisabled && disabledTimeStyle),

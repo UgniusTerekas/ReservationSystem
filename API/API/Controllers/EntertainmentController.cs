@@ -29,11 +29,25 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("filteredEntertainments")]
+        [HttpGet("cityFilteredEntertainments")]
         [ProducesResponseType(typeof(List<EntertainmentCardDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetEntertainmentList(int? cityId, int? categoryId)
+        public async Task<IActionResult> GetCityEntertainmentList(int cityId)
         {
-            var result = await _entertainmentServices.GetEntertainments(cityId, categoryId);
+            var result = await _entertainmentServices.GetCityEntertainments(cityId);
+
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("categoryFilteredEntertainments")]
+        [ProducesResponseType(typeof(List<EntertainmentCardDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCategoryEntertainmentList(int categoryId)
+        {
+            var result = await _entertainmentServices.GetCategoryEntertainments(categoryId);
 
             if (result == null)
             {

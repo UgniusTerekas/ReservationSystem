@@ -25,7 +25,7 @@ export const CitiesList = () => {
         style={{ justifyContent: "center", display: "flex", padding: "0 30px" }}
       >
         {query.data?.map((city) => (
-          <Link to={"/pramogos"} key={city.cityId}>
+          <Link to={`/pramogos/miestai/${city.cityId}`} key={city.cityId}>
             <Card
               hoverable
               cover={

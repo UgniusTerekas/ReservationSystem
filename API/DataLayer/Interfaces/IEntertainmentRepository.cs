@@ -14,7 +14,9 @@ namespace DataLayer.Interfaces
         Task<EntertainmentItemEntity> GetEntertainment(int entertainmentId);
         Task<List<EntertainmentItemEntity>> GetEntertainments();
 
-        Task<List<EntertainmentItemEntity>> GetEntertainments(int? cityId, int? categoryId);
+        Task<List<EntertainmentItemEntity>> GetCityEntertainments(int cityId);
+
+        Task<List<EntertainmentItemEntity>> GetCategoryEntertainments(int categoryId);
         Task<EntertainmentItemEntity> UpdateEntertainment(EntertainmentItemEntity entertainment);
     }
 }

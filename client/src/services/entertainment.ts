@@ -19,6 +19,40 @@ export const getEntertainments = async (signal: AbortSignal | undefined) => {
   return data;
 };
 
+export const getCityEntertainments = async (
+  signal: AbortSignal | undefined,
+  cityId: Number
+) => {
+  const { data } = await axios.get<GetEntertainment[]>(
+    BACK_END_API + "/api/Entertainment/cityFilteredEntertainments",
+    {
+      signal,
+      params: {
+        cityId,
+      },
+    }
+  );
+
+  return data;
+};
+
+export const getCategoryEntertainments = async (
+  signal: AbortSignal | undefined,
+  categoryId: number
+) => {
+  const { data } = await axios.get<GetEntertainment[]>(
+    BACK_END_API + "/api/Entertainment/categoryFilteredEntertainments",
+    {
+      signal,
+      params: {
+        categoryId,
+      },
+    }
+  );
+
+  return data;
+};
+
 export const getEntertainmentDetails = async (
   signal: AbortSignal | undefined,
   id: number
