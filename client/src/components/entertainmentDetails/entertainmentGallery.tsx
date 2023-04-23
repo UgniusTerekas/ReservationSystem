@@ -42,8 +42,8 @@ export const EntertainmentGallery = ({ gallery }: Props) => {
               style={{
                 display: "block",
                 margin: "0 auto",
-                maxHeight: "100%",
-                maxWidth: "100%",
+                maxHeight: "70%",
+                maxWidth: "70%",
               }}
             />
           </div>

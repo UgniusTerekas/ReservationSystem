@@ -58,7 +58,7 @@ namespace API.Controllers
         }
 
         [HttpGet("entertainmentDetails")]
-        [ProducesResponseType(typeof(List<EntertainmentCardDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<EntertainmentDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetEntertainmentDetails(int id)
         {
             var result = await _entertainmentServices.GetEntertainmentDetails(id);

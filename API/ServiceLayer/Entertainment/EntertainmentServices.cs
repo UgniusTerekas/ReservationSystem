@@ -124,6 +124,9 @@ namespace ServiceLayer.EntertainmentService
                 Name = existingEntertainment.EntertainmentName,
                 Price = existingEntertainment.Price,
                 Description = existingEntertainment.EntertainmentDescription,
+                PhoneNumber = existingEntertainment.PhoneNumber,
+                Email = existingEntertainment.Email,
+                Address = existingEntertainment.Address,
                 Gallery = existingEntertainment.Gallery?.Select(c => new GalleryDto
                 {
                     ImageId = c.ImageId,
@@ -188,6 +191,9 @@ namespace ServiceLayer.EntertainmentService
                 EntertainmentDescription = createEntertainment.Description,
                 Price = createEntertainment.Price,
                 UserId = id,
+                Email = createEntertainment.Email,
+                Address = createEntertainment.Address,
+                PhoneNumber = createEntertainment.PhoneNumber,
             };
 
             foreach (var item in createEntertainment.CitiesIds)
