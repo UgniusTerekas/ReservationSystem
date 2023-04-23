@@ -25,6 +25,9 @@ export interface CreateEntertainment {
   name: string | undefined;
   description: string | undefined;
   price: number | undefined;
+  email: string;
+  address: string;
+  phoneNumber: string;
   citiesIds: number[] | undefined;
   categoriesIds: number[] | undefined;
 }

@@ -4,8 +4,6 @@ using DataLayer.Entities.Gallery;
 using DataLayer.Entities.Reservation;
 using DataLayer.Entities.Review;
 using DataLayer.Entities.User;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,6 +29,12 @@ namespace DataLayer.Entities.EntertainmentItem
         public string EntertainmentDescription { get; set; }
 
         public double Price { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Address { get; set; }
+
+        public string Email { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }

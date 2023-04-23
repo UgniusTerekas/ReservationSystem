@@ -32,6 +32,9 @@ export const EntertainmentCreate = () => {
     useState<CreateEntertainment>({
       name: "",
       price: undefined,
+      phoneNumber: "",
+      address: "",
+      email: "",
       categoriesIds: undefined,
       citiesIds: undefined,
       description: "",
@@ -137,6 +140,34 @@ export const EntertainmentCreate = () => {
                     <Input
                       value={createEntertainmentModel.price}
                       onChange={(e) => handleChange("price", e?.target?.value)}
+                      style={{ width: 260 }}
+                    />
+                  </Space>
+                  <Space wrap direction="horizontal">
+                    <p style={{ fontSize: 16 }}>Telefono numeris:</p>
+                    <Input
+                      value={createEntertainmentModel.phoneNumber}
+                      onChange={(e) =>
+                        handleChange("phoneNumber", e?.target?.value)
+                      }
+                      style={{ width: 260 }}
+                    />
+                  </Space>
+                  <Space wrap direction="horizontal">
+                    <p style={{ fontSize: 16 }}>El.paštas:</p>
+                    <Input
+                      value={createEntertainmentModel.email}
+                      onChange={(e) => handleChange("email", e?.target?.value)}
+                      style={{ width: 260 }}
+                    />
+                  </Space>
+                  <Space wrap direction="horizontal">
+                    <p style={{ fontSize: 16 }}>Adresas:</p>
+                    <Input
+                      value={createEntertainmentModel.address}
+                      onChange={(e) =>
+                        handleChange("address", e?.target?.value)
+                      }
                       style={{ width: 260 }}
                     />
                   </Space>

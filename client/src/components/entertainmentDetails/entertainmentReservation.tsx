@@ -145,19 +145,57 @@ export const EntertainmentReservation = () => {
       periodHour = 0;
     }
 
-    for (
-      startHour;
-      startHour! <= endHour!;
-      startHour! += periodHour! + breakHour!
-    ) {
-      if (startHour === endHour) {
-        break;
-      }
-      startMinutes = 0;
+    console.log(breakMinutes, periodMinutes);
+
+    if (breakMinutes !== 0 || periodMinutes !== 0) {
       for (
-        startMinutes;
-        startMinutes! <= 60;
-        startMinutes! += periodMinutes! + breakMinutes!
+        startHour;
+        startHour! <= endHour!;
+        startHour! += periodHour! + breakHour!
+      ) {
+        if (startHour === endHour) {
+          break;
+        }
+        startMinutes = 0;
+        for (
+          startMinutes;
+          startMinutes! <= 60;
+          startMinutes! += periodMinutes! + breakMinutes!
+        ) {
+          const time = dayjs(selectedDate)
+            .startOf("day")
+            .add(startHour!, "hours")
+            .add(startMinutes!, "minutes");
+          const isDisabled = disabledTimes.some((disabledTime) =>
+            disabledTime.match(time.format("HH-mm"))
+          );
+          if (!filledSlots.some((t) => t === time.format("HH:mm"))) {
+            timeSlots.push(
+              <div
+                key={time.format("HH:mm")}
+                style={{
+                  ...availableTimeStyle,
+                  ...(selectedTimes.includes(time.format("HH:mm")) && {
+                    backgroundColor: "#6366F1",
+                  }),
+                  ...(selectedTime == null && { backgroundColor: "#fff" }),
+                  ...(isDisabled && disabledTimeStyle),
+                }}
+                onClick={!isDisabled ? () => handleTimeClick(time) : undefined}
+              >
+                {time.format("HH:mm")}
+              </div>
+            );
+            filledSlots.push(time.format("HH:mm"));
+          }
+        }
+      }
+      return timeSlots;
+    } else {
+      for (
+        startHour;
+        startHour! <= endHour!;
+        startHour! += periodHour! + breakHour!
       ) {
         const time = dayjs(selectedDate)
           .startOf("day")
@@ -186,8 +224,8 @@ export const EntertainmentReservation = () => {
           filledSlots.push(time.format("HH:mm"));
         }
       }
+      return timeSlots;
     }
-    return timeSlots;
   };
 
   const handleSubmit = async () => {
