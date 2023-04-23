@@ -22,6 +22,7 @@ export interface CreateUserReservationModel {
   entertainmentId: number;
   reservationDate: string;
   reservationTime: string;
+  reservationPeriod: string;
 }
 
 export interface EntertainmentReservationsModel {
@@ -35,5 +36,6 @@ export interface UserReservationsModel {
   date: string;
   time: string;
   price: number;
-  remainingTime: string;
+  duration: string;
+  address: string;
 }

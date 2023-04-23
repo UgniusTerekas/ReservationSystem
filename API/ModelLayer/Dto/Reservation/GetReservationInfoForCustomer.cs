@@ -18,6 +18,8 @@ namespace ModelLayer.Dto.Reservation
 
         public double Price { get; set; }
 
-        public string RemainingTime { get; set; }
+        public string Duration { get; set; }
+
+        public string Address { get; set; }
     }
 }

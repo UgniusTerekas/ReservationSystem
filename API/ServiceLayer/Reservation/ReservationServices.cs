@@ -59,7 +59,7 @@ namespace ServiceLayer.Reservation
                 .Select(x => new EntertainmentReservationDto
                 {
                     Date = x.Date.ToString(),
-                    Time = x.ReservationTime.ToString()
+                    Time = x.ReservationTime.ToString(),
                 })
                 .ToList();
         }
@@ -76,7 +76,8 @@ namespace ServiceLayer.Reservation
                     Date = x.Date.ToString(),
                     Time = x.ReservationTime.ToString(),
                     Price = x.Entertainment.Price,
-                    RemainingTime = ""
+                    Duration = x.PeriodTime.ToString(),
+                    Address = x.Entertainment.Address
                 })
                 .ToList();
         }
@@ -149,6 +150,7 @@ namespace ServiceLayer.Reservation
         {
             DateTime date = DateTime.ParseExact(createUserReservation.ReservationDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime reservationTime = DateTime.ParseExact(createUserReservation.ReservationTime, "HH:mm", CultureInfo.InvariantCulture);
+            DateTime reservationPeriod = DateTime.ParseExact(createUserReservation.ReservationPeriod, "HH:mm", CultureInfo.InvariantCulture);
 
             var reservationEntity = new ReservationEntity
             {
@@ -156,9 +158,17 @@ namespace ServiceLayer.Reservation
                 UserId = userId,
                 Date = date,
                 ReservationTime = reservationTime,
+                PeriodTime = reservationPeriod,
             };
 
             return await _reservationRepository.CreateReservation(reservationEntity);
+        }
+
+        public async Task<bool> DeleteUserReservation(int reservationId)
+        {
+            var reservationEntity = await _reservationRepository.GetReservation(reservationId);
+
+            return await _reservationRepository.DeleteUserReservation(reservationEntity);
         }
     }
 }

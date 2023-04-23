@@ -11,5 +11,6 @@ namespace ModelLayer.Dto.Reservation
         public string Date { get; set; }
 
         public string Time { get; set; }
+
     }
 }

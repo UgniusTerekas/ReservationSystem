@@ -64,5 +64,14 @@ namespace DataLayer.Repositories.Reservation
         {
             return await _dbContext.Reservations.FindAsync(reservationId);
         }
+
+        public async Task<bool> DeleteUserReservation(ReservationEntity reservation)
+        {
+            _dbContext.Reservations.Remove(reservation);
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

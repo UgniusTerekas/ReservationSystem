@@ -84,3 +84,16 @@ export const getEntertainmentReservations = async (
 
   return data;
 };
+
+export const deleteUserReservation = async (reservationId: number) => {
+  const { data } = await axios.delete(
+    BACK_END_API + "/api/Reservation/userReservations",
+    {
+      params: {
+        reservationId,
+      },
+    }
+  );
+
+  return data;
+};

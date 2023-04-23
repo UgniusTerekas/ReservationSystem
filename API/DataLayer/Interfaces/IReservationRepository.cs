@@ -15,5 +15,7 @@ namespace DataLayer.Interfaces
             DateTime dateSelected);
 
         Task<List<ReservationEntity>> GetReservationsForUser(int userId);
+
+        Task<bool> DeleteUserReservation(ReservationEntity reservation);
     }
 }

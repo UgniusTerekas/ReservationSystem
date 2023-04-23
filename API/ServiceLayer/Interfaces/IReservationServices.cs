@@ -22,5 +22,7 @@ namespace ServiceLayer.Interfaces
         Task<List<EntertainmentReservationDto>> GetEntertainmentReservations(
             int entertainmentId,
             string date);
+
+        Task<bool> DeleteUserReservation(int reservationId);
     }
 }

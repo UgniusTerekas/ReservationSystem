@@ -15,6 +15,9 @@ export interface GetEntertainmentDetails {
   name: string;
   description: string;
   price: number;
+  email: string;
+  address: string;
+  phoneNumber: string;
   cities: GetCitiesList[];
   categories: GetCategoriesList[];
   gallery: GetGallery[];

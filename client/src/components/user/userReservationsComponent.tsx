@@ -29,6 +29,7 @@ export const UserReservationComponent = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          paddingInline: 30,
         }}
       >
         <div
@@ -41,9 +42,16 @@ export const UserReservationComponent = () => {
             borderColor: "black",
           }}
         >
-          {userReservations.map((reservation) => (
-            <UserReservations reservation={reservation} />
-          ))}
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {userReservations.map((reservation) => (
+              <div
+                key={reservation.reservationId}
+                style={{ width: "50%", padding: "10px", marginBottom: 20 }}
+              >
+                <UserReservations reservation={reservation} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </React.Fragment>
