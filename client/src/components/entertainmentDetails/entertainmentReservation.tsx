@@ -145,8 +145,6 @@ export const EntertainmentReservation = () => {
       periodHour = 0;
     }
 
-    console.log(breakMinutes, periodMinutes);
-
     if (breakMinutes !== 0 || periodMinutes !== 0) {
       for (
         startHour;
@@ -231,10 +229,19 @@ export const EntertainmentReservation = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
 
+    const periodTimeToBack = new Date(periodTime!);
+    const timeString = periodTimeToBack
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace(/\s[AP]M$/, "");
+
     setCreateUserReservationModel({
       entertainmentId: Number(id),
       reservationDate: selectedDate?.format("YYYY-MM-DD") ?? "",
       reservationTime: selectedTime?.format("HH:mm") ?? "",
+      reservationPeriod: timeString,
     });
 
     if (createUserReservationModel) {

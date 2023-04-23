@@ -13,5 +13,7 @@ namespace ModelLayer.Dto.Entertainment
         public string ReservationDate { get; set; }
 
         public string ReservationTime { get; set; }
+
+        public string ReservationPeriod { get; set; }
     }
 }

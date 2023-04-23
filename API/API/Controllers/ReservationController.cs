@@ -83,5 +83,14 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("userReservations")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteUserReservation(int reservationId)
+        {
+            var result = await _reservationServices.DeleteUserReservation(reservationId);
+
+            return Ok(result);
+        }
     }
 }

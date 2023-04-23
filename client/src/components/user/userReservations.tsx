@@ -3,7 +3,7 @@ import {
   CalendarOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Descriptions, Space, Button, Input, Modal } from "antd";
+import { Descriptions, Space, Button, Input, Modal, message } from "antd";
 import React, { useState } from "react";
 import { UserReservationsModel } from "../../types/reservation";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -12,6 +12,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import dayjs from "dayjs";
 import { postEventInGoogleCalendar } from "../../services/googleServices";
+import { deleteUserReservation } from "../../services/reservationServices";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -22,6 +23,22 @@ interface Props {
 
 export const UserReservations = ({ reservation }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const success = (text: string) => {
+    messageApi.open({
+      type: "success",
+      content: text,
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Nepavyko prisijungti!",
+    });
+  };
 
   const scopes = [
     "https://www.googleapis.com/auth/calendar.events",
@@ -30,17 +47,28 @@ export const UserReservations = ({ reservation }: Props) => {
 
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => handleLoginSuccess(tokenResponse),
+    onError: error,
     scope: scopes.join(" "),
   });
 
   const handleLoginSuccess = async (response: any) => {
+    const dateString = reservation.duration;
+    const [dateComponent, timeComponent] = dateString.split(" ");
+    const [hoursString, minutesString] = timeComponent.split(":");
+    const hours = parseInt(hoursString);
+    const minutes = parseInt(minutesString);
+
     const meetStart: ReservationDate = {
       dateTime: new Date(reservation.time).toISOString(),
       timeZone: dayjs.tz.guess(),
     };
 
     const meetEnd: ReservationDate = {
-      dateTime: dayjs(reservation.time).add(1, "hour").toDate().toISOString(),
+      dateTime: dayjs(reservation.time)
+        .add(hours, "hour")
+        .add(minutes, "minutes")
+        .toDate()
+        .toISOString(),
       timeZone: dayjs.tz.guess(),
     };
 
@@ -54,13 +82,14 @@ export const UserReservations = ({ reservation }: Props) => {
 
     const event: GoogleEvent = {
       summary: "Rezervacija: " + reservation?.entertainmentName,
-      location: "Kaunas, Saules gatve 55",
+      location: reservation.address,
       start: meetStart,
       end: meetEnd,
       reminder: reminder,
     };
 
     await postEventInGoogleCalendar(response.access_token, event);
+    success("Sėkmingai pridėta į kalendorių!");
   };
 
   const handleOk = () => {
@@ -71,38 +100,89 @@ export const UserReservations = ({ reservation }: Props) => {
     setIsModalOpen(false);
   };
 
+  const durationDate = reservation?.duration;
+
+  const formattedDuration = new Date(durationDate!).toLocaleString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const reservationDate = reservation?.date;
+
+  const formattedReservationDate = new Date(reservationDate!).toLocaleString(
+    "en-GB",
+    {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }
+  );
+
+  const reservationTime = reservation?.time;
+
+  const formattedReservationTime = new Date(reservationTime!).toLocaleString(
+    "en-GB",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
+  const deleteHandler = async () => {
+    setIsLoading(true);
+    await deleteUserReservation(reservation.reservationId);
+    success("Sėkmingai pašalinta!");
+    setIsLoading(false);
+  };
+
+  // Get the current date/time
+  const now = dayjs();
+
+  // Parse the reservation date/time string
+  const reservationDateTime = dayjs(reservation.time, "M/D/YYYY h:mm:ss A");
+
+  // Calculate the difference in days
+  const daysDiff = reservationDateTime.diff(now, "day");
+
+  // Check if the difference is 3 or more
+  const isDisabled = daysDiff < 3;
+
   return (
     <React.Fragment>
+      {contextHolder}
       <Descriptions column={2} bordered style={{ borderColor: "black" }}>
         <Descriptions.Item
-          label="Vartotojo slapyvardis"
+          label="Pramogos Pavadinimas"
           labelStyle={{ fontWeight: "bold" }}
         >
-          <label style={{ fontWeight: "bold" }}></label>
+          <label style={{ fontWeight: "bold" }}>
+            {reservation.entertainmentName}
+          </label>
         </Descriptions.Item>
         <Descriptions.Item
-          label="Vartotojo El.paštas"
+          label="Rezervacijos ID"
           labelStyle={{ fontWeight: "bold" }}
         >
-          <label style={{ fontWeight: "bold" }}>sdfsdfsd</label>
+          <label style={{ fontWeight: "bold" }}>
+            {reservation.reservationId}
+          </label>
+        </Descriptions.Item>
+        <Descriptions.Item label="Kaina" labelStyle={{ fontWeight: "bold" }}>
+          <label style={{ fontWeight: "bold" }}>{reservation.price}€</label>
+        </Descriptions.Item>
+        <Descriptions.Item label="Trukme" labelStyle={{ fontWeight: "bold" }}>
+          <label style={{ fontWeight: "bold" }}>{formattedDuration} val</label>
         </Descriptions.Item>
         <Descriptions.Item
-          label="Vartotojo rolė"
+          label="Data ir laikas"
           labelStyle={{ fontWeight: "bold" }}
         >
-          <label style={{ fontWeight: "bold" }}>sdfsdf</label>
+          <label style={{ fontWeight: "bold" }}>
+            {formattedReservationDate} {formattedReservationTime} val
+          </label>
         </Descriptions.Item>
-        <Descriptions.Item
-          label="Vartotojo būsena"
-          labelStyle={{ fontWeight: "bold" }}
-        >
-          <label style={{ fontWeight: "bold" }}>dfgdfgd</label>
-        </Descriptions.Item>
-        <Descriptions.Item
-          label="Vartotojo registracijos data"
-          labelStyle={{ fontWeight: "bold" }}
-        >
-          <label style={{ fontWeight: "bold" }}>dfgdfgd</label>
+        <Descriptions.Item label="Adresas" labelStyle={{ fontWeight: "bold" }}>
+          <label style={{ fontWeight: "bold" }}>{reservation.address}</label>
         </Descriptions.Item>
       </Descriptions>
       <Space
@@ -114,14 +194,6 @@ export const UserReservations = ({ reservation }: Props) => {
       >
         <Space>
           <Button
-            onClick={() => setIsModalOpen(true)}
-            icon={<EditOutlined />}
-            type="primary"
-            size="large"
-          >
-            Redaguoti
-          </Button>
-          <Button
             size="large"
             type="primary"
             onClick={() => login()}
@@ -130,7 +202,15 @@ export const UserReservations = ({ reservation }: Props) => {
           >
             Pridėti į kalendorių
           </Button>
-          <Button size="large" icon={<DeleteOutlined />} type="primary" danger>
+          <Button
+            onClick={deleteHandler}
+            size="large"
+            icon={<DeleteOutlined />}
+            type="primary"
+            danger
+            loading={isLoading}
+            disabled={isDisabled}
+          >
             Pašalinti
           </Button>
         </Space>

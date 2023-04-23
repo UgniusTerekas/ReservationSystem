@@ -7,8 +7,6 @@ import { getUserInformation } from "../../services/userServices";
 
 export const UserDataComponent = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>();
-  const [role, setRole] = useState<string>("");
-  const [state, setState] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOk = () => {
@@ -33,19 +31,12 @@ export const UserDataComponent = () => {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+  });
+
+  const formattedTime = new Date(dateString!).toLocaleString("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
   });
-
-  useEffect(() => {
-    if (userInfo?.role === "RegisteredUser") {
-      setRole("Prisiregistravęs vartotojas");
-    }
-
-    if (userInfo?.state === "Active") {
-      setState("Aktyvus");
-    }
-  }, []);
 
   return (
     <React.Fragment>
@@ -87,19 +78,25 @@ export const UserDataComponent = () => {
               label="Vartotojo rolė"
               labelStyle={{ fontWeight: "bold" }}
             >
-              <label style={{ fontWeight: "bold" }}>{role}</label>
+              <label style={{ fontWeight: "bold" }}>{userInfo?.role}</label>
             </Descriptions.Item>
             <Descriptions.Item
               label="Vartotojo būsena"
               labelStyle={{ fontWeight: "bold" }}
             >
-              <label style={{ fontWeight: "bold" }}>{state}</label>
+              <label style={{ fontWeight: "bold" }}>{userInfo?.state}</label>
             </Descriptions.Item>
             <Descriptions.Item
               label="Vartotojo registracijos data"
               labelStyle={{ fontWeight: "bold" }}
             >
               <label style={{ fontWeight: "bold" }}>{formattedDate}</label>
+            </Descriptions.Item>
+            <Descriptions.Item
+              label="Vartotojo registracijos laikas"
+              labelStyle={{ fontWeight: "bold" }}
+            >
+              <label style={{ fontWeight: "bold" }}>{formattedTime}</label>
             </Descriptions.Item>
           </Descriptions>
           <Space

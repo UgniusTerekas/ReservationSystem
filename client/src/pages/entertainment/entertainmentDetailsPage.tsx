@@ -54,6 +54,9 @@ export const EntertainmentDetailsPage = () => {
         <EntertainmentAbout
           name={entertainmentDetails?.name}
           description={entertainmentDetails?.description}
+          email={entertainmentDetails?.email}
+          phoneNumber={entertainmentDetails?.phoneNumber}
+          address={entertainmentDetails?.address}
         />
         {entertainmentDetails?.gallery.length !== 0 && (
           <EntertainmentGallery gallery={entertainmentDetails?.gallery} />
