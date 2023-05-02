@@ -1,14 +1,14 @@
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { MenuProps, Dropdown, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
+import { removeLocalTokens } from "../../services/tokenServices";
 import { useRecoilState } from "recoil";
 import { isValidToken } from "../../recoil/authStates";
-import { removeLocalTokens } from "../../services/tokenServices";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Dropdown, MenuProps } from "antd";
 
 export const AdminMenu = () => {
   const navigate = useNavigate();
 
-  const [, setTokenValidation] = useRecoilState(isValidToken);
+  const [isTokenValid, setTokenValidation] = useRecoilState(isValidToken);
 
   const logoutHandler = () => {
     setTokenValidation(false);
@@ -34,8 +34,8 @@ export const AdminMenu = () => {
       type: "group",
       children: [
         {
-          key: "1-2",
-          label: "Administratoriaus informacija",
+          key: "1-1",
+          label: "Administravimo pultas",
           onClick: adminInfoHandler,
         },
       ],

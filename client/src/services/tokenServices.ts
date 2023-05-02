@@ -44,6 +44,7 @@ export function pareRoleJWT(token: any): JWTDeCode {
     iat: -1,
     exp: -1,
     iss: "",
+    RoleId: "",
   };
   for (const [key, value] of Object.entries(jwtBody)) {
     const newKey = key.split("/").pop()?.toLowerCase();

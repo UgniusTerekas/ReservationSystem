@@ -5,13 +5,14 @@ import { TopBar } from "../components/core/topbar";
 import { TopBarLoggedOut } from "../components/core/topBarLoggedOut";
 import { isValidToken } from "../recoil/authStates";
 import { Footer } from "antd/es/layout/layout";
+import { AdminTopBar } from "../components/core/adminTopBar";
 
-export const RootLayout = () => {
+export const AdminRootLayout = () => {
   const [validToken] = useRecoilState(isValidToken);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {validToken ? <TopBar /> : <TopBarLoggedOut />}
+      {validToken ? <AdminTopBar /> : <TopBarLoggedOut />}
       <Layout>
         <Outlet />
       </Layout>
