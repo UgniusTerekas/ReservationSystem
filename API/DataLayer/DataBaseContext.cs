@@ -56,5 +56,18 @@ namespace DataLayer
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
+
+        public static string GetConnectionString()
+        {
+            return "Server=localhost\\SQLEXPRESS;Database=reservation;Trusted_Connection=True;Encrypt=False;";
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(GetConnectionString(), sqlServerOptions => sqlServerOptions.CommandTimeout(360));
+            }
+        }
     }
 }
