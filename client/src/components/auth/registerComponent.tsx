@@ -5,7 +5,7 @@ import { RegisterCredentials } from "../../types/userAuth";
 import { RegisterRequest } from "../../contracts/authRequest";
 import { postRegisterRequest } from "../../services/authServices";
 import { useRecoilState } from "recoil";
-import { authTokenAtom } from "../../recoil/authStates";
+import { authTokenAtom, isValidToken } from "../../recoil/authStates";
 
 const labelStyle: React.CSSProperties = {
   width: 80,
@@ -21,12 +21,14 @@ export const RegisterComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState<boolean>(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTokenValid, setTokenValidation] = useRecoilState(isValidToken);
   const [authToken] = useRecoilState(authTokenAtom);
 
   const navigate = useNavigate();
 
   const registerHandler = async () => {
+    setIsLoading(true);
     const crediantials: RegisterCredentials = {
       username: username,
       email: email,
@@ -40,16 +42,17 @@ export const RegisterComponent = () => {
     const res = await postRegisterRequest(request);
 
     if (res === false) {
+      setIsLoading(false);
       setShowError(true);
       return;
     }
-
-    navigate("/login");
+    setIsLoading(false);
+    navigate("/prisijungimas");
   };
 
   useEffect(() => {
-    if (authToken) {
-      navigate("/");
+    if (isTokenValid) {
+      navigate("/pagrindinis");
     }
   });
 
@@ -111,7 +114,7 @@ export const RegisterComponent = () => {
 
         <Form.Item
           name="confirm"
-          label={<p style={labelStyle}>Pakartokite slaptažodį</p>}
+          label={<p style={labelStyle}>Pakartokite</p>}
           dependencies={["password"]}
           hasFeedback
           rules={[
@@ -138,7 +141,12 @@ export const RegisterComponent = () => {
         </Form.Item>
 
         <Form.Item style={{ textAlign: "center" }}>
-          <Button style={{ marginTop: 10 }} type="primary" htmlType="submit">
+          <Button
+            loading={isLoading}
+            style={{ marginTop: 10 }}
+            type="primary"
+            htmlType="submit"
+          >
             Registruotis
           </Button>
         </Form.Item>

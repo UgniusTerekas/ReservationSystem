@@ -24,7 +24,7 @@ export const LoginComponent = () => {
   const [showError, setShowError] = useState<boolean>(false);
 
   const [tokenValid, setAuthToken] = useRecoilState(authTokenAtom);
-  const [, setTokenValidation] = useRecoilState(isValidToken);
+  const [isTokenValid, setTokenValidation] = useRecoilState(isValidToken);
 
   const navigate = useNavigate();
 
@@ -54,8 +54,8 @@ export const LoginComponent = () => {
   };
 
   useEffect(() => {
-    if (tokenValid) {
-      navigate("/");
+    if (isTokenValid) {
+      navigate("/pagrindinis");
     }
   }, []);
 

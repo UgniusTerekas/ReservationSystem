@@ -18,6 +18,7 @@ import { CreateImagePage } from "./pages/images/createImagePage";
 import { CityEntertainmentListPage } from "./pages/entertainment/cityEntertainmentListPage";
 import { CategoryEntertainmentListPage } from "./pages/entertainment/categoryEntertainmentListPage";
 import { UserPage } from "./pages/userPage";
+import { AdminDashboardPage } from "./pages/adminDashboardPage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
@@ -66,6 +67,7 @@ export const App = () => {
           />
           <Route path="/kurti/pramoga" element={<EntertainmentCreate />} />
           <Route path="/vartotojas" element={<UserPage />} />
+          <Route path="/administratorius" element={<AdminDashboardPage />} />
           <Route path="/prisijungimas" element={<LoginPage />} />
           <Route path="/registracija" element={<RegisterPage />} />
         </Route>

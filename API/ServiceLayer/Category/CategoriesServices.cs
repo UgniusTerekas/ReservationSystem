@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ModelLayer.Contracts.Category;
-using DataLayer.Migrations;
 
 namespace ServiceLayer.CategoryService
 {

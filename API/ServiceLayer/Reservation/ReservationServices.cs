@@ -1,6 +1,5 @@
 ﻿using DataLayer.Entities.Reservation;
 using DataLayer.Interfaces;
-using DataLayer.Migrations;
 using ModelLayer.Dto.Entertainment;
 using ModelLayer.Dto.Reservation;
 using ServiceLayer.Interfaces;
