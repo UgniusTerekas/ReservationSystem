@@ -24,6 +24,7 @@ namespace DataLayer.Repositories.User
                 .Users
                 .Include(r => r.Role)
                 .Include(s => s.State)
+                .Where(u => u.UserId == id)
                 .FirstOrDefaultAsync();
 
             return userEntity;

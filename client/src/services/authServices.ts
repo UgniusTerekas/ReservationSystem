@@ -24,21 +24,21 @@ export const postLoginRequest = async (userLoginDto: LoginRequest) => {
   return data.tokenJWT;
 };
 
-export async function CheckJWTIsAdmin() {
-  const token = JSON.parse(localStorage.getItem("token") || "false");
+export function CheckJWTIsAdmin() {
+  const authToken = JSON.parse(localStorage.getItem("authToken") || "null");
 
-  if (token === false) {
+  if (authToken === null || authToken === undefined) {
     return false;
   }
 
-  const decoded: JWTDeCode = jwt_decode(token.token);
+  const decoded: JWTDeCode = jwt_decode(authToken);
 
   if (decoded.exp < Date.now() / 1000) {
     localStorage.clear();
     return false;
   }
 
-  if (decoded.Role === "Admin") {
+  if (decoded.RoleId === "1") {
     return true;
   }
   return false;

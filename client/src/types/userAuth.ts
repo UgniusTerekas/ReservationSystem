@@ -14,6 +14,7 @@ export interface JWTDeCode {
   Username: string;
   Email: string;
   Role: string;
+  RoleId: string;
   iat: number;
   exp: number;
   iss: string;

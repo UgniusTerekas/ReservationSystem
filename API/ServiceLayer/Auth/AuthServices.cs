@@ -50,7 +50,7 @@ namespace ServiceLayer.AuthServices
                new Claim("UserId", user.UserId.ToString()),
                new Claim("Username", user.UserName),
                new Claim("Email", user.UserEmail),
-               new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+               new Claim("RoleId", user.RoleId.ToString()),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));

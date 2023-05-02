@@ -1,6 +1,7 @@
-import { MenuProps, Menu } from "antd";
+import { Menu, MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
-import { useLocation, Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { UserMenu } from "./userMenu";
 import { AdminMenu } from "./adminMenu";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -8,12 +9,14 @@ type MenuItem = Required<MenuProps>["items"][number];
 const getItem = (
   label: React.ReactNode,
   key: React.Key,
+  className?: string,
   icon?: React.ReactNode,
   children?: MenuItem[],
   type?: string
 ): MenuItem => {
   return {
     key,
+    className,
     icon,
     children,
     label,
