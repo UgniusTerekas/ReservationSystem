@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  AdminReservationsModel,
   CreateReservationModel,
   CreateUserReservationModel,
   EntertainmentReservationsModel,
@@ -79,6 +80,19 @@ export const getEntertainmentReservations = async (
         entertainmentId,
         date,
       },
+    }
+  );
+
+  return data;
+};
+
+export const getAdminReservations = async (signal: AbortSignal | undefined) => {
+  const token = getLocalAccessToken();
+  axios.defaults.headers.get["Authorization"] = `Bearer ${token}`;
+  const { data } = await axios.get<AdminReservationsModel[]>(
+    BACK_END_API + "/api/Reservation/adminDashboard/reservations",
+    {
+      signal,
     }
   );
 

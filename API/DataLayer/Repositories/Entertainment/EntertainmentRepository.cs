@@ -96,6 +96,8 @@ namespace DataLayer.Repositories.Entertainment
             return entertainment;
         }
 
+
+
         public async Task DeleteEntertainment(EntertainmentItemEntity entertainment)
         {
             _dbContext.Entertainments.Remove(entertainment);

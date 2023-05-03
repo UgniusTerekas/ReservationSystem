@@ -63,9 +63,9 @@ namespace API.Controllers
 
         [HttpDelete("review")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> DeleteReview(int id)
+        public async Task<IActionResult> DeleteReview(int reviewId)
         {
-            var result = await _reviewServices.DeleteReview(id);
+            var result = await _reviewServices.DeleteReview(reviewId);
 
             return Ok(result);
         }

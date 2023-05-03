@@ -78,6 +78,7 @@ namespace ServiceLayer.Reservation
                     Duration = x.PeriodTime.ToString(),
                     Address = x.Entertainment.Address
                 })
+                .OrderByDescending(x => x.Time)
                 .ToList();
         }
 
@@ -168,6 +169,26 @@ namespace ServiceLayer.Reservation
             var reservationEntity = await _reservationRepository.GetReservation(reservationId);
 
             return await _reservationRepository.DeleteUserReservation(reservationEntity);
+        }
+
+        public async Task<List<GetAdminReservationsDto>> GetAdminReservations(int adminId)
+        {
+            var reservations = await _reservationRepository.GetAdminReservations(adminId);
+
+            return reservations
+                .Select(r => new GetAdminReservationsDto
+                {
+                    Id = r.ReservationId,
+                    EntertainmentName = r.Entertainment.EntertainmentName,
+                    EntertainmentId = r.EntertainmentId,
+                    Username = r.User.UserName,
+                    Email = r.User.UserEmail,
+                    UserId = adminId,
+                    ReservationTime = r.ReservationTime.ToString(),
+                    Price = r.Entertainment.Price
+                })
+                .OrderByDescending(r => r.Id)
+                .ToList();
         }
     }
 }

@@ -14,3 +14,12 @@ export const createReview = async (createReviewRequest: CreateReview) => {
 
   return response;
 };
+
+export const deleteReview = async (reviewId: number) => {
+  const token = getLocalAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  const response = await axios.delete<CreateReview>(
+    `${BACK_END_API}/api/Review/review?reviewId=${reviewId}`
+  );
+  return response;
+};

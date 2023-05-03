@@ -84,6 +84,18 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpGet("adminDashboard/reservations")]
+        [ProducesResponseType(typeof(List<GetAdminReservationsDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAdminDashboardReservations()
+        {
+            var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            var result = await _reservationServices.GetAdminReservations(id);
+
+            return Ok(result);
+        }
+
         [HttpDelete("userReservations")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteUserReservation(int reservationId)

@@ -43,3 +43,20 @@ export function CheckJWTIsAdmin() {
   }
   return false;
 }
+
+export function GetUserName() {
+  const authToken = JSON.parse(localStorage.getItem("authToken") || "null");
+
+  if (authToken === null || authToken === undefined) {
+    return undefined;
+  }
+
+  const decoded: JWTDeCode = jwt_decode(authToken);
+
+  if (decoded.exp < Date.now() / 1000) {
+    localStorage.clear();
+    return undefined;
+  }
+
+  return decoded.Username;
+}

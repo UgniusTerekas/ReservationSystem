@@ -17,5 +17,7 @@ namespace DataLayer.Interfaces
         Task<List<ReservationEntity>> GetReservationsForUser(int userId);
 
         Task<bool> DeleteUserReservation(ReservationEntity reservation);
+
+        Task<List<ReservationEntity>> GetAdminReservations(int adminId);
     }
 }
