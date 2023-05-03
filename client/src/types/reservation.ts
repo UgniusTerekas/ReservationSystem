@@ -39,3 +39,23 @@ export interface UserReservationsModel {
   duration: string;
   address: string;
 }
+
+export interface AdminReservationsModel {
+  id: number;
+  entertainmentName: string;
+  entertainmentId: number;
+  username: string;
+  email: string;
+  userId: number;
+  reservationTime: string;
+  price: number;
+}
+
+export interface AdminReservationsTableType {
+  id: number;
+  entertainmentName: string;
+  username: string;
+  email: string;
+  reservationTime: string;
+  price: number;
+}

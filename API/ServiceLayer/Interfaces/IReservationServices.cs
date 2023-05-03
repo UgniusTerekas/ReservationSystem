@@ -24,5 +24,7 @@ namespace ServiceLayer.Interfaces
             string date);
 
         Task<bool> DeleteUserReservation(int reservationId);
+
+        Task<List<GetAdminReservationsDto>> GetAdminReservations(int adminId);
     }
 }

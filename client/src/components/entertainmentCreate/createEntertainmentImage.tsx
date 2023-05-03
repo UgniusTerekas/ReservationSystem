@@ -90,7 +90,6 @@ export const CreateEntertainmentImage = () => {
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>
         Galerijos Kūrimas
       </Divider>
-      {contextHolder}
       <div
         style={{
           display: "flex",

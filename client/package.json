@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@formatjs/intl": "^2.7.2",
     "@types/jsonwebtoken": "^9.0.1"
   }
 }

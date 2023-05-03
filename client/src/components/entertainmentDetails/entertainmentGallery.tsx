@@ -8,10 +8,18 @@ interface Props {
 
 export const EntertainmentGallery = ({ gallery }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  let filteredImages;
 
   const handleSlideChange = (current: number) => {
     setCurrentSlide(current);
   };
+
+  if (gallery) {
+    filteredImages = gallery.filter(
+      (image, index, self) =>
+        index === self.findIndex((i) => i.imageName === image.imageName)
+    );
+  }
 
   return (
     <React.Fragment>
@@ -24,7 +32,7 @@ export const EntertainmentGallery = ({ gallery }: Props) => {
         beforeChange={handleSlideChange}
         style={{ width: "100%", textAlign: "center" }}
       >
-        {gallery?.map((image, index) => (
+        {filteredImages?.map((image, index) => (
           <div
             key={index}
             style={{

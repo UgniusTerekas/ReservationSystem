@@ -4,7 +4,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { Descriptions, Space, Button, Input, Modal, message } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserReservationsModel } from "../../types/reservation";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleEvent, Reminder, ReservationDate } from "../../types/google";
@@ -25,6 +25,7 @@ export const UserReservations = ({ reservation }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const success = (text: string) => {
     messageApi.open({
@@ -133,19 +134,22 @@ export const UserReservations = ({ reservation }: Props) => {
     await deleteUserReservation(reservation.reservationId);
     success("Sėkmingai pašalinta!");
     setIsLoading(false);
+    window.location.reload();
   };
 
-  // Get the current date/time
-  const now = dayjs();
+  useEffect(() => {
+    // Get the current date/time
+    const now = dayjs();
 
-  // Parse the reservation date/time string
-  const reservationDateTime = dayjs(reservation.time, "M/D/YYYY h:mm:ss A");
+    // Parse the reservation date/time string
+    const reservationDateTime = dayjs(reservation.date, "M/D/YYYY h:mm:ss A");
 
-  // Calculate the difference in days
-  const daysDiff = reservationDateTime.diff(now, "day");
+    // Calculate the difference in days
+    const daysDiff = reservationDateTime.diff(now, "day");
 
-  // Check if the difference is 3 or more
-  const isDisabled = daysDiff < 3;
+    // Check if the difference is 3 or more
+    setIsDisabled(daysDiff < 3);
+  }, []);
 
   return (
     <React.Fragment>

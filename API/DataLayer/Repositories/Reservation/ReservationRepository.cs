@@ -73,5 +73,25 @@ namespace DataLayer.Repositories.Reservation
 
             return true;
         }
+
+        public async Task<List<ReservationEntity>> GetAdminReservations(int adminId)
+        {
+            var entertainmentIds = await _dbContext
+                .Reservations
+                .Include(e => e.Entertainment)
+                .Where(r =>
+                    r.UserId == adminId)
+                .Select(r => r.EntertainmentId)
+                .ToListAsync();
+
+            return await _dbContext
+                .Reservations
+                .Include(e => e.Entertainment)
+                .Include(u => u.User)
+                .Where(r =>
+                    entertainmentIds.Contains(r.EntertainmentId)
+                    && r.Date != null)
+                .ToListAsync();
+        }
     }
 }

@@ -57,6 +57,17 @@ export const AdminMenu = () => {
       children: [
         {
           key: "1-3",
+          label: "Vartotojo informacija",
+          onClick: customerInfoHandler,
+        },
+      ],
+    },
+    {
+      key: "4",
+      type: "group",
+      children: [
+        {
+          key: "1-4",
           label: "Atsijungti",
           icon: <LogoutOutlined />,
           onClick: logoutHandler,

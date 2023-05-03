@@ -8,6 +8,8 @@ import { getUserInformation } from "../../services/userServices";
 export const UserDataComponent = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [role, setRole] = useState("");
+  const [state, setState] = useState("");
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -37,6 +39,28 @@ export const UserDataComponent = () => {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  useEffect(() => {
+    if (userInfo?.role === "Admin") {
+      setRole("Administratorius");
+    }
+
+    if (userInfo?.role === "EntertainmentProvider") {
+      setRole("Pramogos administratorius");
+    }
+
+    if (userInfo?.role === "RegisteredUser") {
+      setRole("Vartotojas");
+    }
+
+    if (userInfo?.state === "Active") {
+      setState("Aktyvus");
+    }
+
+    if (userInfo?.state === "Blocked") {
+      setState("Blokuotas");
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -78,13 +102,13 @@ export const UserDataComponent = () => {
               label="Vartotojo rolė"
               labelStyle={{ fontWeight: "bold" }}
             >
-              <label style={{ fontWeight: "bold" }}>{userInfo?.role}</label>
+              <label style={{ fontWeight: "bold" }}>{role}</label>
             </Descriptions.Item>
             <Descriptions.Item
               label="Vartotojo būsena"
               labelStyle={{ fontWeight: "bold" }}
             >
-              <label style={{ fontWeight: "bold" }}>{userInfo?.state}</label>
+              <label style={{ fontWeight: "bold" }}>{state}</label>
             </Descriptions.Item>
             <Descriptions.Item
               label="Vartotojo registracijos data"

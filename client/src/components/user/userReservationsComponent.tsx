@@ -46,7 +46,7 @@ export const UserReservationComponent = () => {
             {userReservations.map((reservation) => (
               <div
                 key={reservation.reservationId}
-                style={{ width: "50%", padding: "10px", marginBottom: 20 }}
+                style={{ padding: "10px", marginBottom: 20 }}
               >
                 <UserReservations reservation={reservation} />
               </div>
