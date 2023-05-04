@@ -115,5 +115,17 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [Authorize]
+        [HttpGet("editEntertainments")]
+        [ProducesResponseType(typeof(List<GetEntertainmentForEditing>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetEntertainmentForEdit()
+        {
+            var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            var result = await _entertainmentServices.GetEntertainmentForEditing(id);
+
+            return Ok(result);
+        }
     }
 }

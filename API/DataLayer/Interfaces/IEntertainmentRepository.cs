@@ -18,5 +18,7 @@ namespace DataLayer.Interfaces
 
         Task<List<EntertainmentItemEntity>> GetCategoryEntertainments(int categoryId);
         Task<EntertainmentItemEntity> UpdateEntertainment(EntertainmentItemEntity entertainment);
+
+        Task<List<EntertainmentItemEntity>> GetEntertainmentsForEdit(int adminId);
     }
 }

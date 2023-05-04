@@ -14,6 +14,7 @@ using ServiceLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
@@ -239,11 +240,17 @@ namespace ServiceLayer.EntertainmentService
                 && updateModel.Price != null
                 && updateModel.Description != null
                 && updateModel.Cities != null
-                && updateModel.Categories != null)
+                && updateModel.Categories != null
+                && updateModel.Email != null
+                && updateModel.Phone != null
+                && updateModel.Address != null)
             {
                 existingEntertainment.EntertainmentName = updateModel.Name;
                 existingEntertainment.Price = updateModel.Price;
                 existingEntertainment.EntertainmentDescription = updateModel.Description;
+                existingEntertainment.PhoneNumber = updateModel.Phone;
+                existingEntertainment.Email = updateModel.Email;
+                existingEntertainment.Address = updateModel.Address;
                 existingEntertainment.Cities = (ICollection<CityEntity>)updateModel.Cities;
                 existingEntertainment.Categories = (ICollection<CategoryEntity>)updateModel.Categories;
             }
@@ -256,6 +263,50 @@ namespace ServiceLayer.EntertainmentService
             }
 
             return true;
+        }
+
+        public async Task<List<GetEntertainmentForEditing>> GetEntertainmentForEditing(int adminId)
+        {
+            var entertainmentEntity = await _entertainmentRepository.GetEntertainmentsForEdit(adminId);
+
+            var categoryDtoList = new List<CategoryDto>();
+
+            foreach (var category in entertainmentEntity.SelectMany(x => x.Categories))
+            {
+                var categoryDto = new CategoryDto
+                {
+                    CategoryId = category.CategoryId,
+                    CategoryName = category.CategoryName
+                };
+                categoryDtoList.Add(categoryDto);
+            }
+
+            var cityDtoList = new List<CityDto>();
+
+            foreach (var city in entertainmentEntity.SelectMany(x => x.Cities))
+            {
+                var cityDto = new CityDto
+                {
+                    CityId = city.CityId,
+                    CityName = city.CityName
+                };
+                cityDtoList.Add(cityDto);
+            }
+
+            return entertainmentEntity
+                .Select(x => new GetEntertainmentForEditing
+                {
+                    Id = x.EntertainmentId,
+                    Name = x.EntertainmentName,
+                    Description = x.EntertainmentDescription,
+                    Price = x.Price,
+                    Phone = x.PhoneNumber,
+                    Email = x.Email,
+                    Address = x.Address,
+                    Cities = cityDtoList,
+                    Categories = categoryDtoList
+                })
+                .ToList();
         }
 
         public async Task<bool> DeleteEntertainment(int id)

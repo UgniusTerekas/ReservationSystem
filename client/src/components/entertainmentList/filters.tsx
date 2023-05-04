@@ -57,9 +57,9 @@ export const Filters = () => {
               value={category}
               onChange={handleCategoryChange}
             >
-              <Option value="">All categories</Option>
-              <Option value="electronics">Electronics</Option>
-              <Option value="books">Books</Option>
+              <Option value="">Visos kategorijos</Option>
+              <Option value="oroPramogos">Oro pramogos</Option>
+              <Option value="aktyviosPramogos">Aktyvios pramogos</Option>
               <Option value="clothing">Clothing</Option>
             </Select>
           </Space>
@@ -70,7 +70,7 @@ export const Filters = () => {
               value={city}
               onChange={handleCityChange}
             >
-              <Option value="">All cities</Option>
+              <Option value="">Visi miestai</Option>
               <Option value="electronics">Electronics</Option>
               <Option value="books">Books</Option>
               <Option value="clothing">Clothing</Option>

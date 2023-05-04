@@ -58,7 +58,6 @@ export const EntertainmentReview = ({ id }: Props) => {
 
   return (
     <React.Fragment>
-      {messageHolder}
       <Divider style={{ borderColor: "black", paddingInline: 30 }}>
         Palikite atsiliepimą
       </Divider>

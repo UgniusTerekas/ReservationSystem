@@ -22,5 +22,7 @@ namespace ServiceLayer.Interfaces
         Task<bool> UpdateEntertainment(UpdateEntertainmentDto updateModel);
 
         Task<EntertainmentDto> GetEntertainmentDetails(int id);
+
+        Task<List<GetEntertainmentForEditing>> GetEntertainmentForEditing(int adminId);
     }
 }
