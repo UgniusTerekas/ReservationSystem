@@ -40,28 +40,6 @@ export const UserDataComponent = () => {
     minute: "2-digit",
   });
 
-  useEffect(() => {
-    if (userInfo?.role === "Admin") {
-      setRole("Administratorius");
-    }
-
-    if (userInfo?.role === "EntertainmentProvider") {
-      setRole("Pramogos administratorius");
-    }
-
-    if (userInfo?.role === "RegisteredUser") {
-      setRole("Vartotojas");
-    }
-
-    if (userInfo?.state === "Active") {
-      setState("Aktyvus");
-    }
-
-    if (userInfo?.state === "Blocked") {
-      setState("Blokuotas");
-    }
-  }, []);
-
   return (
     <React.Fragment>
       <Divider style={{ paddingInline: 30, borderColor: "black" }}>
@@ -102,13 +80,13 @@ export const UserDataComponent = () => {
               label="Vartotojo rolė"
               labelStyle={{ fontWeight: "bold" }}
             >
-              <label style={{ fontWeight: "bold" }}>{role}</label>
+              <label style={{ fontWeight: "bold" }}>Vartotojas</label>
             </Descriptions.Item>
             <Descriptions.Item
               label="Vartotojo būsena"
               labelStyle={{ fontWeight: "bold" }}
             >
-              <label style={{ fontWeight: "bold" }}>{state}</label>
+              <label style={{ fontWeight: "bold" }}>Aktyvus</label>
             </Descriptions.Item>
             <Descriptions.Item
               label="Vartotojo registracijos data"

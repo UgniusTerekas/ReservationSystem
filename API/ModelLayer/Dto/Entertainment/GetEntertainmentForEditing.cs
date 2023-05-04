@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModelLayer.Dto.Entertainment
 {
-    public class UpdateEntertainmentDto
+    public class GetEntertainmentForEditing
     {
         public int Id { get; set; }
 

@@ -74,7 +74,7 @@ namespace DataLayer.Repositories.Entertainment
                 .Include(e => e.Categories)
                 .Include(e => e.Reviews)
                 .Include(e => e.Reservations)
-                .FirstOrDefaultAsync(e => 
+                .FirstOrDefaultAsync(e =>
                     e.EntertainmentId == entertainmentId);
         }
 
@@ -96,7 +96,23 @@ namespace DataLayer.Repositories.Entertainment
             return entertainment;
         }
 
+        public async Task<List<EntertainmentItemEntity>> GetEntertainmentsForEdit(int adminId)
+        {
+            var entertainmentId = await _dbContext
+                .Entertainments
+                .Include(u => u.User)
+                .Where(e => e.UserId == adminId)
+                .Select(x => x.EntertainmentId)
+                .ToListAsync();
 
+            return _dbContext
+                .Entertainments
+                .Include(r => r.Reservations)
+                .Include(c => c.Cities)
+                .Include(ca => ca.Categories)
+                .Where(e => entertainmentId.Contains(e.EntertainmentId))
+                .ToList();
+        }
 
         public async Task DeleteEntertainment(EntertainmentItemEntity entertainment)
         {
