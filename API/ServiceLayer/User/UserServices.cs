@@ -25,6 +25,11 @@ namespace ServiceLayer.User
 
         public async Task<GetUserDataDto> GetUserData(int userId)
         {
+            if (userId < 0)
+            {
+                return null;
+            }
+
             var userEntity = await _userRepository.GetUser(userId);
 
             return new GetUserDataDto
@@ -41,6 +46,11 @@ namespace ServiceLayer.User
             UpdateUserInfo updateUser,
             int id)
         {
+            if (id < 0)
+            {
+                return false;
+            }
+
             var userEntity = await _userRepository.GetUser(id);
 
             var existingUsername = await _authRepository.CheckUsername(updateUser.UserName);

@@ -35,6 +35,11 @@ namespace API.Controllers
         {
             var result = await _reviewServices.GetReview(id);
 
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return Ok(result);
         }
 
@@ -47,6 +52,11 @@ namespace API.Controllers
 
             var result = await _reviewServices.CreateReview(createReview, id);
 
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
             return Created(string.Empty, result);
         }
 
@@ -58,6 +68,11 @@ namespace API.Controllers
 
             var result = await _reviewServices.UpdateReview(updateReview, id);
 
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
             return Ok(result);
         }
 
@@ -67,7 +82,12 @@ namespace API.Controllers
         {
             var result = await _reviewServices.DeleteReview(reviewId);
 
-            return Ok(result);
+            if (result == false)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

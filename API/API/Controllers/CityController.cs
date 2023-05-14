@@ -86,7 +86,7 @@ namespace API.Controllers
 
         [HttpDelete("deleteCity")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> DeleteCategory(int cityId)
+        public async Task<IActionResult> DeleteCity(int cityId)
         {
             var result = await _citiesServices.DeleteCity(cityId);
 

@@ -25,6 +25,11 @@ namespace API.Controllers
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
 
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
+
             var result = await _userServices.GetUserData(id);
 
             return Ok(result);
@@ -37,7 +42,17 @@ namespace API.Controllers
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
 
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
+
             var result = await _userServices.EditUserInfo(updateUserInfo, id);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
 
             return Created(string.Empty, result);
         }
@@ -50,6 +65,11 @@ namespace API.Controllers
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
 
             var result = await _userServices.DeleteUser(id);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
 
             return Ok(result);
         }

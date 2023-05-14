@@ -122,7 +122,7 @@ namespace ServiceLayer.Review
             review.ReviewId = updateReview.Id;
             review.Review = updateReview.Description;
             review.UserId = id;
-            review.Rating = updateReview.Rating;
+            review.Rating = (double)updateReview.Rating;
 
             var result = _reviewRepository.UpdateReview(review);
 

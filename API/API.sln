@@ -5,11 +5,13 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{2A8DC4F4-A809-4D75-AEB8-FF28478E9950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{83D0ADCD-A115-4479-A0F1-2A2692964331}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{83D0ADCD-A115-4479-A0F1-2A2692964331}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{0CA66D1E-A624-40C6-8D3B-A9C4DB1A20D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{0CA66D1E-A624-40C6-8D3B-A9C4DB1A20D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelLayer", "ModelLayer\ModelLayer.csproj", "{23F666C1-C299-46A9-BB6F-F4330746EAC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelLayer", "ModelLayer\ModelLayer.csproj", "{23F666C1-C299-46A9-BB6F-F4330746EAC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLayer", "TestLayer\TestLayer.csproj", "{F050A898-C54C-42C3-809B-4ABFCFB4B2ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{23F666C1-C299-46A9-BB6F-F4330746EAC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23F666C1-C299-46A9-BB6F-F4330746EAC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23F666C1-C299-46A9-BB6F-F4330746EAC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F050A898-C54C-42C3-809B-4ABFCFB4B2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F050A898-C54C-42C3-809B-4ABFCFB4B2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F050A898-C54C-42C3-809B-4ABFCFB4B2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F050A898-C54C-42C3-809B-4ABFCFB4B2ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
