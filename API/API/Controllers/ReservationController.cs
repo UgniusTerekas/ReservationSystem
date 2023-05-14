@@ -21,12 +21,22 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost("createReservation")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateReservation(CreateReservationDto createReservation)
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
 
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
+
             var result = await _reservationServices.CreateReservation(createReservation, id);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
 
             return Ok(result);
         }
@@ -37,6 +47,11 @@ namespace API.Controllers
         public async Task<IActionResult> GetUserReservations()
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
 
             var result = await _reservationServices.GetReservationsForUser(id);
 
@@ -58,6 +73,11 @@ namespace API.Controllers
         {
             var result = await _reservationServices.GetReservationFillData(entertainmentId);
 
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return Ok(result);
         }
 
@@ -70,6 +90,11 @@ namespace API.Controllers
 
             var result = await _reservationServices.CreateUserReservation(createUserReservationDto, id);
 
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
             return Created(string.Empty, result);
         }
 
@@ -81,6 +106,11 @@ namespace API.Controllers
         {
             var result = await _reservationServices.GetEntertainmentReservations(entertainmentId, date);
 
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
             return Ok(result);
         }
 
@@ -90,6 +120,11 @@ namespace API.Controllers
         public async Task<IActionResult> GetAdminDashboardReservations()
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
 
             var result = await _reservationServices.GetAdminReservations(id);
 
@@ -101,6 +136,11 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteUserReservation(int reservationId)
         {
             var result = await _reservationServices.DeleteUserReservation(reservationId);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
 
             return Ok(result);
         }

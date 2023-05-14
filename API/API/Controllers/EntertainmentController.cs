@@ -78,6 +78,11 @@ namespace API.Controllers
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
 
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
+
             var result = await _entertainmentServices.CreateEntertainment(createEntertainmentDto, id);
 
             if (result == -1)
@@ -122,6 +127,11 @@ namespace API.Controllers
         public async Task<IActionResult> GetEntertainmentForEdit()
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
+
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
 
             var result = await _entertainmentServices.GetEntertainmentForEditing(id);
 

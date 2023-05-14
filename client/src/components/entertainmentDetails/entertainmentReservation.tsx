@@ -290,7 +290,11 @@ export const EntertainmentReservation = () => {
           paddingInline: 30,
         }}
       >
-        <DatePicker value={selectedDate} onChange={handleDateChange} />
+        <DatePicker
+          value={selectedDate}
+          onChange={handleDateChange}
+          placeholder="Pasirinkti datą"
+        />
         <Skeleton active loading={entertainmentReservationQuery.isLoading}>
           {selectedDate && (
             <div style={{ marginTop: 20 }}>{getTimeSlots()}</div>
@@ -302,7 +306,7 @@ export const EntertainmentReservation = () => {
             disabled={!selectedTime}
             loading={isLoading}
           >
-            Submit
+            Patvirtinti
           </Button>
         </Skeleton>
       </div>

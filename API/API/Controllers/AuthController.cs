@@ -24,7 +24,7 @@ namespace API.Controllers
 
             if (result == null)
             {
-                return Ok(false);
+                return BadRequest();
             }
 
             return Ok(result);

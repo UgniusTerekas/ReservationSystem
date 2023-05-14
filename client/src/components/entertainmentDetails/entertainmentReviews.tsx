@@ -56,7 +56,7 @@ export const EntertainmentReviews = ({ reviews }: Props) => {
                 loading={isLoading}
                 onClick={() => handleDelete(review.id)}
               >
-                Delete
+                Ištrinti
               </Button>
             )}
           </>

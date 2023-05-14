@@ -33,7 +33,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            return Ok(result);
+            return Created(string.Empty, result);
         }
 
         [HttpGet("getCategory")]

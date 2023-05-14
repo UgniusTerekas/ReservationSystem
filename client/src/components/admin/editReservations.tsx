@@ -97,7 +97,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>Kaina:</p>
                   <Input
-                    value="129"
+                    value="139"
                     onChange={(e) => handleChange("price", e?.target?.value)}
                     style={{ width: 260 }}
                   />

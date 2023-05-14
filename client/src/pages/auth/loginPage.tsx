@@ -4,7 +4,7 @@ export const LoginPage = () => {
   return (
     <div
       style={{
-        backgroundColor: "#d9d9d9",
+        backgroundColor: "#bfbfbf",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -13,7 +13,6 @@ export const LoginPage = () => {
         backgroundSize: "cover",
         height: "100vh",
         width: "100vw",
-        margin: -1,
       }}
     >
       <LoginComponent />
