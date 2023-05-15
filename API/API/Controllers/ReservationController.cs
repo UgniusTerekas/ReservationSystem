@@ -88,6 +88,11 @@ namespace API.Controllers
         {
             var id = Convert.ToInt32(HttpContext.User.FindFirstValue("UserId"));
 
+            if (id <= 0)
+            {
+                return Unauthorized();
+            }
+
             var result = await _reservationServices.CreateUserReservation(createUserReservationDto, id);
 
             if (result == false)

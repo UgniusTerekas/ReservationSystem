@@ -23,7 +23,8 @@ namespace TestLayer.Controllers
                 }
             };
             var mockAuthService = new Mock<IAuthServices>();
-            mockAuthService.Setup(x => x.Register(registerRequest)).ReturnsAsync(new RegisterResponse { IsSuccess = true });
+            mockAuthService.Setup(x => x.Register(registerRequest))
+                .ReturnsAsync(new RegisterResponse { IsSuccess = true });
             var controller = new AuthController(mockAuthService.Object);
 
             // Act
