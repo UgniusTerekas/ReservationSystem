@@ -1,31 +1,56 @@
-import React, { useState } from "react";
-import { Button, Divider, Form, Input, Select, Space } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Divider, Form, Input, Skeleton, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { CreateEntertainment } from "../../types/entertainment";
+import { GetEntertainmentDetails } from "../../types/entertainment";
 import { useQuery } from "react-query";
 import { getCategories } from "../../services/categoriesServices";
 import { getCities } from "../../services/cityServices";
 import { GetCategoriesList } from "../../types/category";
 import { GetCitiesList } from "../../types/city";
-
-const { Option } = Select;
+import { AdminReservationsModel } from "../../types/reservation";
+import { getAdminReservations } from "../../services/reservationServices";
+import axios from "axios";
 
 export const EditReservations = () => {
-  const [createEntertainmentModel, setCreateEntertainment] =
-    useState<CreateEntertainment>({
-      name: "",
-      price: undefined,
-      phoneNumber: "",
-      address: "",
-      email: "",
-      categoriesIds: undefined,
-      citiesIds: undefined,
-      description: "",
-    });
-  const [categories, setCategories] = useState<GetCategoriesList[]>([]);
-  const [cities, setCities] = useState<GetCitiesList[]>([]);
+  const [reservations, setReservations] = useState<AdminReservationsModel[]>(
+    []
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [entertainmentDetails, setEntertainmentDetails] =
+    useState<GetEntertainmentDetails>();
+  const [, setCategories] = useState<GetCategoriesList[]>([]);
+  const [, setCities] = useState<GetCitiesList[]>([]);
 
-  const categoriesQuery = useQuery({
+  useQuery({
+    queryKey: ["adminReservations"],
+    queryFn: ({ signal }) => getAdminReservations(signal),
+    onSuccess: (data) => {
+      setReservations(data);
+    },
+  });
+
+  const fetchEntertainmentDetails = (id: number | undefined) => {
+    axios
+      .get(
+        `https:localhost:7229/api/Entertainment/entertainmentDetails?id=${
+          reservations.at(0)?.entertainmentId
+        }`
+      )
+      .then((response) => {
+        const data = response.data;
+        setEntertainmentDetails(data);
+      });
+  };
+
+  useEffect(() => {
+    if (reservations !== undefined) {
+      if (reservations.at(0)?.entertainmentId) {
+        fetchEntertainmentDetails(reservations.at(0)?.entertainmentId);
+      }
+    }
+  }, [reservations]);
+
+  useQuery({
     queryKey: ["categoriesDropdown"],
     queryFn: ({ signal }) => getCategories(signal),
     onSuccess: (data) => {
@@ -33,7 +58,7 @@ export const EditReservations = () => {
     },
   });
 
-  const citiesQuery = useQuery({
+  useQuery({
     queryKey: ["citiesDropdown"],
     queryFn: ({ signal }) => getCities(signal),
     onSuccess: (data) => {
@@ -41,12 +66,8 @@ export const EditReservations = () => {
     },
   });
 
-  const handleChange = (name: string, value: string | number[]) => {
-    setCreateEntertainment((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  const handleChange = (name: string, value: string | number[]) => {};
+
   return (
     <React.Fragment>
       <Divider style={{ paddingInline: 30, borderColor: "black" }}>
@@ -79,7 +100,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>Pavadinimas:</p>
                   <Input
-                    value="Oro balionas"
+                    value={entertainmentDetails?.name}
                     onChange={(e) => handleChange("name", e.target.value)}
                     style={{ width: 260 }}
                   />
@@ -87,7 +108,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>Aprašymas:</p>
                   <TextArea
-                    value="Skrydis oro balionu"
+                    value={entertainmentDetails?.description}
                     onChange={(e) =>
                       handleChange("description", e.target.value)
                     }
@@ -97,7 +118,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>Kaina:</p>
                   <Input
-                    value="139"
+                    value={entertainmentDetails?.price}
                     onChange={(e) => handleChange("price", e?.target?.value)}
                     style={{ width: 260 }}
                   />
@@ -105,7 +126,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>Telefono numeris:</p>
                   <Input
-                    value="+37065846366"
+                    value={entertainmentDetails?.phoneNumber}
                     onChange={(e) =>
                       handleChange("phoneNumber", e?.target?.value)
                     }
@@ -115,7 +136,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>El.paštas:</p>
                   <Input
-                    value="test@test.com"
+                    value={entertainmentDetails?.email}
                     onChange={(e) => handleChange("email", e?.target?.value)}
                     style={{ width: 260 }}
                   />
@@ -123,7 +144,7 @@ export const EditReservations = () => {
                 <Space wrap direction="horizontal">
                   <p style={{ fontSize: 16 }}>Adresas:</p>
                   <Input
-                    value="Vilnius"
+                    value={entertainmentDetails?.address}
                     onChange={(e) => handleChange("address", e?.target?.value)}
                     style={{ width: 260 }}
                   />
